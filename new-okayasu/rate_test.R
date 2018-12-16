@@ -3,6 +3,16 @@
 
 require(phacm)
 require(tidyverse)
+require(TDA)
+require(myfs)
+require(rgl)
+require(boot)
+require(doParallel)
+require(foreach)
+require(plotly)
+require(viridis)
+require(pterrace)
+require(phacm)
 
 torus.collect15<- lapply(1:100, function(i){
   nsample <- 500
