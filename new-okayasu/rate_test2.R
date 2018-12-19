@@ -36,6 +36,16 @@ save(torus15.300subs, file="./data/torus15_300subs.RData")
 
 ######################################
 
+#サブサンプルを分析##############
+torus15.300subs.aggrs<-lapply(1:length(torus15.300subs), function(k){
+  cat("list", k, "calc\n")
+  return(proposedMethodOnly(torus15.300subs[[k]], 2, 3, 10))})
+save(torus15.300subs.aggrs, file="./data/torus15_300subs_aggrs.RData")
+
+torus15.300subs.rate<-aggrSuccessRates(torus15.300subs.aggrs, correct = c(2,1))
+
+###############################
+
 #サブサンプルに補間
 torus15.300insubs<-lapply(torus15.300subs, function(sub)intering(sub))
 save(torus15.300insubs, file="./data/torus15_300insubs.RData")
@@ -46,6 +56,6 @@ torus15.300subs4_5.aggrs<-lapply(4:5, function(k){
   cat("list", k, "calc\n")
   return(proposedMethodOnly(torus15.300insubs[[k]], 2, 3, 10))})
 
-save(torus15.300subs2_3.aggrs, file="./data/torus15_300subs2_3_aggrs.RData")
+save(torus15.300subs4_5.aggrs, file="./data/torus15_300subs4_5_aggrs.RData")
 
-torus15.300insubs2_3.rate<-aggrSuccessRates(torus15.300subs2_3.aggrs, correct = c(2,1))
+torus15.300insubs4_5rate<-aggrSuccessRates(torus15.300subs4_5.aggrs, correct = c(2,1))
