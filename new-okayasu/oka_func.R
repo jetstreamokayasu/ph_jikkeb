@@ -591,21 +591,11 @@ Print <- function(...){
 
 
 #変数をRDataファイルに保存する関数
-save2File<-function(val, dir=0){
-  
-  valname<-substitute(val)
-  
-  #print(ls(.GlobalEnv))
-  if(!(as.character(valname) %in% ls(.GlobalEnv))){stop(paste0(valname, " don't exist"))}
-  
-  if(dir==0){
-    
-    save(get(as.character(valname), envir = .GlobalEnv), file=paste0("./data/", gsub("\\.", "_", valname), ".RData"))
-  }
-  else{
-    save(get(as.character(valname), envir = .GlobalEnv), file=paste0(dir, gsub("\\.", "_", valname), ".RData"))
-  }
-  
+save2Rdata <- function(...) {
+  elp <- list(...)
+  elname <- substitute(...) %>% as.character()
+  assign(elname, elp[[1]])
+  save(list = elname, file = paste0("./data/", gsub("\\.", "_", elname), ".RData"))
 }
   
 

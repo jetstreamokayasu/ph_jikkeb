@@ -432,6 +432,8 @@ sidesSet<-function(sides){
   
 }
 
+#打った点がボロノイ領域内にあるか確かめる関数
+#返り値ncrossのTの数が奇数だと領域内にある
 crossCheck<-function(tile, hline, sides){
   
   t1<-sapply(sides[,1], function(side){
@@ -599,6 +601,7 @@ centerVoronoi<-function(tile){
   
 }
 
+#中心点が作るボロノイ領域の頂点に点を打つ
 voronoiBorder<-function(vics.line, figure){
   
   require(deldir)

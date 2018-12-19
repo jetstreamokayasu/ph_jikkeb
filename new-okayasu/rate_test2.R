@@ -59,3 +59,4 @@ torus15.300subs4_5.aggrs<-lapply(4:5, function(k){
 save(torus15.300subs4_5.aggrs, file="./data/torus15_300subs4_5_aggrs.RData")
 
 torus15.300insubs4_5rate<-aggrSuccessRates(torus15.300subs4_5.aggrs, correct = c(2,1))
+
