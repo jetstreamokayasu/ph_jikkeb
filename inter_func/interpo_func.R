@@ -139,6 +139,8 @@ originCoodinate<-function(rpca, incord){
   eigen01<-as.matrix(rpca$rotation[,1])
   eigen02<-as.matrix(rpca$rotation[,2])
   
+  if(!is.matrix(incord)){incord<-t(as.matrix(incord))}
+  
   oricord<-sapply(1:nrow(incord), function(l){
     
   return((incord[l, 1]*(eigen01)+incord[l, 2]*(eigen02))+rpca$center)
@@ -435,9 +437,10 @@ exist_convexhull_check<-function(rpca, insecs){
   chul<-chull(rpca[["x"]][,1:2])
   
   exist<-sapply(1:nrow(insecs), function(i){
-    cross.side<-chul[which(rpca[["x"]][chul,1]>=insecs[i,1])] %>% 
-                sapply(., function(k)convex_hull_vertx(chul, k)) %>% 
-                sidesSet(.)
+    sides<-chul[which(rpca[["x"]][chul,1]>=insecs[i,1])] %>% 
+                sapply(., function(k)convex_hull_vertx(chul, k))
+    if(length(sides)==0){return(F)}
+    else{cross.side<-sidesSet(sides)}
     hline<-matrix(c(insecs[i,], max(rpca[["x"]][chul,1][which(rpca[["x"]][chul,1]>=insecs[i,1])]), insecs[i,2]), 2, 2, byrow=T)
     #debugText(hline)
     c.ncross<-convex_hull_check(rpca, hline, t(cross.side))
@@ -471,7 +474,9 @@ exist_convexhull_check<-function(rpca, insecs){
 
 #辺の集合で被りを無くす
 sidesSet<-function(sides){
-  
+  #debugText(sides)
+  if(!is.matrix(sides)){sides<-t(as.matrix(sides))}
+  #debugText(sides)
   check.sides<-matrix(0, 2, ncol(sides)*2)
   #debugText(ncol(sides))
   t<-1
@@ -688,6 +693,8 @@ voronoiBorder<-function(vics.line, figure){
   insecs<-cbind(tiles[[1]][["x"]], tiles[[1]][["y"]])
   
   exist<-exist_convexhull_check(vics.pca, insecs)
+  
+  #debugText(vics.line, exist, insecs[which(exist==T), ])
   
   vics.oricord<-originCoodinate(vics.pca, insecs[which(exist==T), ])
   

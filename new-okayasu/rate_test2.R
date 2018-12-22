@@ -60,3 +60,22 @@ save(torus15.300subs4_5.aggrs, file="./data/torus15_300subs4_5_aggrs.RData")
 
 torus15.300insubs4_5rate<-aggrSuccessRates(torus15.300subs4_5.aggrs, correct = c(2,1))
 
+#凸包外にある補間点を除く補間
+torus15.300insubs1_3<-lapply(torus15.300subs[1:3], function(sub)intering(sub))
+save2Rdata(torus15.300insubs1_3)
+
+torus15.300sub1_27<-voronoiInterpo(torus15.300subs[[1]][[27]][["noizyX"]], 15)
+torus15.300sub2_56<-voronoiInterpo(torus15.300subs[[2]][[56]][["noizyX"]], 15)
+
+torus15.300insubs1_3.aggrs<-lapply(1:3, function(k){
+  cat("list", k, "calc\n")
+  return(proposedMethodOnly(torus15.300insubs1_3[[k]], 2, 3, 10))})
+
+torus15.300sub1_36<-proposedMethodOnly(torus15.300insubs1_3[[1]][36], maxdim = 2, maxscale = 3, samples = 10)
+
+torus15.300insubs2.aggr<-proposedMethodOnly(torus15.300insubs1_3[[2]], maxdim = 2, maxscale = 3, samples = 10)
+save2Rdata(torus15.300insubs2.aggr)
+torus15.300insubs2.rate<-aggrSuccessRates(list(torus15.300insubs2.aggr), correct=c(2,1))
+
+torus15.300insubs1.aggr<-proposedMethodOnly(torus15.300insubs1_3[[1]], maxdim = 2, maxscale = 3, samples = 10)
+
