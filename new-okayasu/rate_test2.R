@@ -49,6 +49,9 @@ torus15.300subs.rate<-aggrSuccessRates(torus15.300subs.aggrs, correct = c(2,1))
 #サブサンプルに補間
 torus15.300insubs<-lapply(torus15.300subs, function(sub)intering(sub))
 save(torus15.300insubs, file="./data/torus15_300insubs.RData")
+
+torus15.310insubs<-lapply(torus15.310subs, function(sub)intering(sub))
+save2Rdata(torus15.310insubs)
 ##############################
 
 #補間したサブサンプルを分析
@@ -78,4 +81,13 @@ save2Rdata(torus15.300insubs2.aggr)
 torus15.300insubs2.rate<-aggrSuccessRates(list(torus15.300insubs2.aggr), correct=c(2,1))
 
 torus15.300insubs1.aggr<-proposedMethodOnly(torus15.300insubs1_3[[1]], maxdim = 2, maxscale = 3, samples = 10)
+save2Rdata(torus15.300insubs1.aggr)
+torus15.300insubs1.rate<-aggrSuccessRates(list(torus15.300insubs1.aggr), c(2,1))
 
+torus15.300insubs3.aggr<-proposedMethodOnly(torus15.300insubs1_3[[3]], maxdim = 2, maxscale = 3, samples = 10)
+save2Rdata(torus15.300insubs3.aggr)
+torus15.300insubs3.rate<-aggrSuccessRates(list(torus15.300insubs3.aggr), c(2,1))
+
+torus15.310insubs1_3.aggrs<-lapply(1:3, function(k){
+  cat("list", k, "calc\n")
+  return(proposedMethodOnly(torus15.310insubs[[k]], 2, 3, 10))})

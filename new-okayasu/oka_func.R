@@ -592,6 +592,7 @@ Print <- function(...){
 
 #変数をRDataファイルに保存する関数
 save2Rdata <- function(...) {
+  require(tidyverse)
   elp <- list(...)
   elname <- substitute(...) %>% as.character()
   assign(elname, elp[[1]])
