@@ -88,6 +88,54 @@ torus15.300insubs3.aggr<-proposedMethodOnly(torus15.300insubs1_3[[3]], maxdim = 
 save2Rdata(torus15.300insubs3.aggr)
 torus15.300insubs3.rate<-aggrSuccessRates(list(torus15.300insubs3.aggr), c(2,1))
 
+#310点
 torus15.310insubs1_3.aggrs<-lapply(1:3, function(k){
   cat("list", k, "calc\n")
   return(proposedMethodOnly(torus15.310insubs[[k]], 2, 3, 10))})
+save2Rdata(torus15.310insubs1_3.aggrs)
+
+torus15.310insubs1_3.rates<-aggrSuccessRates(torus15.310insubs1_3.aggrs, c(2,1))
+
+
+#320点
+torus15.320subs<-lapply(1:5, function(k)subsampleExclude(torus.collect15, nsub = 320))
+save(torus15.320subs, file="./data/torus15_320subs.RData")
+
+torus15.320insubs<-lapply(torus15.320subs, function(sub)intering(sub))
+save2Rdata(torus15.320insubs)
+
+torus15.320insubs1_3.aggrs<-lapply(1:3, function(k){
+  cat("list", k, "calc\n")
+  return(proposedMethodOnly(torus15.320insubs[[k]], 2, 3, 10))})
+save2Rdata(torus15.320insubs1_3.aggrs)
+
+torus15.320insubs1_3.rates<-aggrSuccessRates(torus15.320insubs1_3.aggrs, c(2,1))
+
+#330点
+torus15.330subs<-lapply(1:5, function(k)subsampleExclude(torus.collect15, nsub = 330))
+save2Rdata(torus15.330subs)
+
+torus15.330insubs<-lapply(torus15.330subs, function(sub)intering(sub))
+save2Rdata(torus15.330insubs)
+
+torus15.330insubs1_3.aggrs<-lapply(1:3, function(k){
+  cat("list", k, "calc\n")
+  return(proposedMethodOnly(torus15.330insubs[[k]], 2, 3, 10))})
+save2Rdata(torus15.330insubs1_3.aggrs)
+
+torus15.330insubs1_3.rates<-aggrSuccessRates(torus15.330insubs1_3.aggrs, c(2,1))
+
+#340点
+torus15.340subs<-lapply(1:5, function(k)subsampleExclude(torus.collect15, nsub = 340))
+save2Rdata(torus15.340subs)
+
+torus15.340insubs<-lapply(torus15.340subs, function(sub)intering(sub))
+save2Rdata(torus15.340insubs)
+
+torus15.340insubs1_3.aggrs<-lapply(1:3, function(k){
+  cat("list", k, "calc\n")
+  return(proposedMethodOnly(torus15.340insubs[[k]], 2, 3, 10))})
+save2Rdata(torus15.340insubs1_3.aggrs)
+
+torus15.340insubs1_3.rates<-aggrSuccessRates(torus15.340insubs1_3.aggrs, c(2,1))
+
