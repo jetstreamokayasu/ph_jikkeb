@@ -173,7 +173,7 @@ save(torus15.340rates, file="./data/trus15_340rates.RData")
 save(torus15.330rates, file="./data/trus15_330rates.RData")
 save(torus15.320rates, file="./data/trus15_320rates.RData")
 
-sucrate300sub.dim2<-sapply(torus15.300rates[["300sub"]][["dim2"]], function(rate){return(rate[1])})
+sucrate300sub.dim2<-sapply(torus15.300subs.rate, function(rate){return(rate[2])})
 sucrate320sub.dim2<-sapply(torus15.320rates[["320sub"]][["dim2"]], function(rate){return(rate[1])})
 sucrate350sub.dim2<-sapply(torus15.350rates[["350sub"]][["dim2"]], function(rate){return(rate[1])})
 sucrate330sub.dim2<-sapply(torus15.330rates[["330sub"]][["dim2"]], function(rate){return(rate)})
@@ -189,6 +189,9 @@ suctrate.dim2<-list("300"=sucrate300sub2.dim2,
                            "330"=sucrate330sub.dim2,
                            "340"=sucrate340sub.dim2,
                            "350"=sucrate350sub.dim2)
+
+suctrate.dim2[["300"]]<-unlist(sucrate300sub.dim2)
+suctrate.dim2[["310"]]<-unlist(sucrate310sub.dim2)
 
 suctrate.dim2 %>% bind_cols() %>% gather(data, value) %>% ggplot(aes(data, value)) + geom_violin() + geom_point()
 
@@ -289,11 +292,13 @@ torus15.300insubs1.rate<-aggrSuccessRates(list(torus15.300insub1.aggr), correct 
 torus15.300insubs<-lapply(torus15.300subs, function(sub)intering(sub))
 save(torus15.300insubs, file="./data/torus15_300insubs.RData")
 
-torus15.300subs2_3.aggrs<-lapply(2:3, function(k){
+torus15.300insubs2_3.aggrs<-lapply(2:3, function(k){
   cat("list", k, "calc\n")
   return(proposedMethodOnly(torus15.300insubs[[k]], 2, 3, 10))})
 
-save(torus15.300subs2_3.aggrs, file="./data/torus15_300subs2_3_aggrs.RData")
+save(torus15.300insubs2_3.aggrs, file="./data/torus15_300insubs2_3_aggrs.RData")
 
 torus15.300insubs2_3.rate<-aggrSuccessRates(torus15.300subs2_3.aggrs, correct = c(2,1))
+
+
 
