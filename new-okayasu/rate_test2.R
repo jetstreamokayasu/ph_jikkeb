@@ -143,6 +143,9 @@ save2Rdata(torus15.340insubs1_3.aggrs)
 
 torus15.340insubs1_3.rates<-aggrSuccessRates(torus15.340insubs1_3.aggrs, c(2,1))
 
+#350点
+torus15.350insubs1_3.rates<-aggrSuccessRates(torus15.350insubs1_3.aggrs, c(2,1))
+
 ##精度のプロット2
 suctrate.dim2_2<-list("300"=unlist(sucrate300sub.dim2),
                       "310"=sucrate310sub.dim2,
@@ -159,7 +162,8 @@ sucrate.dim2.tidy_2<-suctrate.dim2_2 %>% bind_cols() %>% gather(data, value)
 
 rate.dim2<-sucrate.dim2.tidy_2[,"value"]
 
-plot(sucrate.dim2.tidy_2, pch=16, cex.axis=1.6, xlab="Data Points", ylab="Success Rates", cex.lab=1.6, ylim=c(0.2, 1.0))
+plot(sucrate.dim2.tidy_2, pch=16, cex.axis=1.6, xlab="Data Points", ylab="Success Rates", cex.lab=1.6, ylim=c(0.2, 1.0), xaxt="n")
+axis(side=1, at=seq(300, 350, by=10), labels=c(paste0(seq(30, 35), "/π^2")))
 
 sucdim2.mean_2<-sapply(suctrate.dim2_2, function(rate)mean(rate))
 lines(seq(300, 350, by=10), sucdim2.mean_2)
@@ -178,19 +182,29 @@ insub320.rate<-sapply(torus15.320insubs1_3.rates, function(rate){return(rate[[2]
 
 insub330.rate<-sapply(torus15.330insubs1_3.rates, function(rate){return(rate[[2]])})
 
+insub340.rate<-sapply(torus15.340insubs1_3.rates, function(rate){return(rate[[2]])})
+
+insub350.rate<-sapply(torus15.350insubs1_3.rates, function(rate){return(rate[[2]])})
+
 insub.rates<-list("300"=insub300.rate[1:3],
                   "310"=insub310.rate,
                   "320"=insub320.rate,
-                  "330"=insub330.rate)
+                  "330"=insub330.rate,
+                  "340"=insub340.rate,
+                  "350"=insub350.rate)
+
+save2Rdata(insub.rates)
 
 points(rep(300, 3), insub300.rate[1:3], col=2, pch=16)
 points(rep(310, 3), insub310.rate, col=2, pch=16)
 points(rep(320, 3), insub320.rate, col=2, pch=16)
 points(rep(330, 3), insub330.rate, col=2, pch=16)
+points(rep(340, 3), insub340.rate, col=2, pch=16)
+points(rep(350, 3), insub350.rate, col=2, pch=16)
 
 insubdim2.mean<-sapply(insub.rates, function(rate)mean(rate))
-lines(seq(300, 330, by=10), insubdim2.mean, col=2)
+lines(seq(300, 350, by=10), insubdim2.mean, col=2)
 
 insubdim2.sd<-sapply(insub.rates, function(rate)sd(rate))
-lines(seq(300, 330, by=10), insubdim2.mean-insubdim2.sd, lty="dashed", col=2)
-lines(seq(300, 330, by=10), insubdim2.mean+insubdim2.sd, lty="dashed", col=2)
+lines(seq(300, 350, by=10), insubdim2.mean-insubdim2.sd, lty="dashed", col=2)
+lines(seq(300, 350, by=10), insubdim2.mean+insubdim2.sd, lty="dashed", col=2)
