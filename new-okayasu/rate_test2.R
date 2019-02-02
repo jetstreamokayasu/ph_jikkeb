@@ -88,10 +88,6 @@ torus15.300insubs3.aggr<-proposedMethodOnly(torus15.300insubs1_3[[3]], maxdim = 
 save2Rdata(torus15.300insubs3.aggr)
 torus15.300insubs3.rate<-aggrSuccessRates(list(torus15.300insubs3.aggr), c(2,1))
 
-#300点
-torus15.300insubs2.rate<-aggrSuccessRates(list(torus15.300insubs2.aggr), correct = c(2,1))
-
-
 #310点
 torus15.310insubs1_3.aggrs<-lapply(1:3, function(k){
   cat("list", k, "calc\n")
@@ -100,6 +96,12 @@ save2Rdata(torus15.310insubs1_3.aggrs)
 
 torus15.310insubs1_3.rates<-aggrSuccessRates(torus15.310insubs1_3.aggrs, c(2,1))
 
+torus15.310insubs4_5.aggrs<-lapply(4:5, function(k){
+  cat("list", k, "calc\n")
+  return(proposedMethodOnly(torus15.310insubs[[k]], 2, 3, 10))})
+save2Rdata(torus15.310insubs4_5.aggrs)
+
+torus15.310insubs4_5.rates<-aggrSuccessRates(torus15.310insubs4_5.aggrs, c(2,1))
 
 #320点
 torus15.320subs<-lapply(1:5, function(k)subsampleExclude(torus.collect15, nsub = 320))
@@ -115,6 +117,13 @@ save2Rdata(torus15.320insubs1_3.aggrs)
 
 torus15.320insubs1_3.rates<-aggrSuccessRates(torus15.320insubs1_3.aggrs, c(2,1))
 
+torus15.320insubs4_5.aggrs<-lapply(4:5, function(k){
+  cat("list", k, "calc\n")
+  return(proposedMethodOnly(torus15.320insubs[[k]], 2, 3, 10))})
+save2Rdata(torus15.320insubs4_5.aggrs)
+
+torus15.320insubs4_5.rates<-aggrSuccessRates(torus15.320insubs4_5.aggrs, c(2,1))
+
 #330点
 torus15.330subs<-lapply(1:5, function(k)subsampleExclude(torus.collect15, nsub = 330))
 save2Rdata(torus15.330subs)
@@ -128,6 +137,13 @@ torus15.330insubs1_3.aggrs<-lapply(1:3, function(k){
 save2Rdata(torus15.330insubs1_3.aggrs)
 
 torus15.330insubs1_3.rates<-aggrSuccessRates(torus15.330insubs1_3.aggrs, c(2,1))
+
+torus15.330insubs4_5.aggrs<-lapply(4:5, function(k){
+  cat("list", k, "calc\n")
+  return(proposedMethodOnly(torus15.330insubs[[k]], 2, 3, 10))})
+save2Rdata(torus15.330insubs4_5.aggrs)
+
+torus15.330insubs4_5.rates<-aggrSuccessRates(torus15.330insubs4_5.aggrs, c(2,1))
 
 #340点
 torus15.340subs<-lapply(1:5, function(k)subsampleExclude(torus.collect15, nsub = 340))
@@ -144,6 +160,10 @@ save2Rdata(torus15.340insubs1_3.aggrs)
 torus15.340insubs1_3.rates<-aggrSuccessRates(torus15.340insubs1_3.aggrs, c(2,1))
 
 #350点
+
+torus15.350subs<-lapply(1:5, function(k)subsampleExclude(torus.collect15, nsub = 350))
+save2Rdata(torus15.350subs)
+
 torus15.350insubs1_3.rates<-aggrSuccessRates(torus15.350insubs1_3.aggrs, c(2,1))
 
 ##精度のプロット2
@@ -155,6 +175,16 @@ suctrate.dim2_2<-list("300"=unlist(sucrate300sub.dim2),
                       "350"=suctrate.dim2[["350"]])
 
 
+torus15.350insubs<-lapply(torus15.350subs, function(sub)intering(sub))
+save2Rdata(torus15.350insubs)
+
+torus15.350insubs1_3.aggrs<-lapply(1:3, function(k){
+  cat("list", k, "calc\n")
+  return(proposedMethodOnly(torus15.350insubs[[k]], 2, 3, 10))})
+save2Rdata(torus15.350insubs1_3.aggrs)
+
+
+torus15.350insubs1_3.rates<-aggrSuccessRates(torus15.350insubs1_3.aggrs, c(2,1))
 
 suctrate.dim2_2 %>% bind_cols() %>% gather(data, value) %>% ggplot(aes(data, value)) + geom_violin() + geom_point()
 
@@ -208,3 +238,4 @@ lines(seq(300, 350, by=10), insubdim2.mean, col=2)
 insubdim2.sd<-sapply(insub.rates, function(rate)sd(rate))
 lines(seq(300, 350, by=10), insubdim2.mean-insubdim2.sd, lty="dashed", col=2)
 lines(seq(300, 350, by=10), insubdim2.mean+insubdim2.sd, lty="dashed", col=2)
+
