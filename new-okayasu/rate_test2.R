@@ -88,10 +88,6 @@ torus15.300insubs3.aggr<-proposedMethodOnly(torus15.300insubs1_3[[3]], maxdim = 
 save2Rdata(torus15.300insubs3.aggr)
 torus15.300insubs3.rate<-aggrSuccessRates(list(torus15.300insubs3.aggr), c(2,1))
 
-#300点
-torus15.300insubs2.rate<-aggrSuccessRates(list(torus15.300insubs2.aggr), correct = c(2,1))
-
-
 #310点
 torus15.310insubs1_3.aggrs<-lapply(1:3, function(k){
   cat("list", k, "calc\n")
@@ -100,6 +96,12 @@ save2Rdata(torus15.310insubs1_3.aggrs)
 
 torus15.310insubs1_3.rates<-aggrSuccessRates(torus15.310insubs1_3.aggrs, c(2,1))
 
+torus15.310insubs4_5.aggrs<-lapply(4:5, function(k){
+  cat("list", k, "calc\n")
+  return(proposedMethodOnly(torus15.310insubs[[k]], 2, 3, 10))})
+save2Rdata(torus15.310insubs4_5.aggrs)
+
+torus15.310insubs4_5.rates<-aggrSuccessRates(torus15.310insubs4_5.aggrs, c(2,1))
 
 #320点
 torus15.320subs<-lapply(1:5, function(k)subsampleExclude(torus.collect15, nsub = 320))
@@ -115,6 +117,13 @@ save2Rdata(torus15.320insubs1_3.aggrs)
 
 torus15.320insubs1_3.rates<-aggrSuccessRates(torus15.320insubs1_3.aggrs, c(2,1))
 
+torus15.320insubs4_5.aggrs<-lapply(4:5, function(k){
+  cat("list", k, "calc\n")
+  return(proposedMethodOnly(torus15.320insubs[[k]], 2, 3, 10))})
+save2Rdata(torus15.320insubs4_5.aggrs)
+
+torus15.320insubs4_5.rates<-aggrSuccessRates(torus15.320insubs4_5.aggrs, c(2,1))
+
 #330点
 torus15.330subs<-lapply(1:5, function(k)subsampleExclude(torus.collect15, nsub = 330))
 save2Rdata(torus15.330subs)
@@ -128,6 +137,13 @@ torus15.330insubs1_3.aggrs<-lapply(1:3, function(k){
 save2Rdata(torus15.330insubs1_3.aggrs)
 
 torus15.330insubs1_3.rates<-aggrSuccessRates(torus15.330insubs1_3.aggrs, c(2,1))
+
+torus15.330insubs4_5.aggrs<-lapply(4:5, function(k){
+  cat("list", k, "calc\n")
+  return(proposedMethodOnly(torus15.330insubs[[k]], 2, 3, 10))})
+save2Rdata(torus15.330insubs4_5.aggrs)
+
+torus15.330insubs4_5.rates<-aggrSuccessRates(torus15.330insubs4_5.aggrs, c(2,1))
 
 #340点
 torus15.340subs<-lapply(1:5, function(k)subsampleExclude(torus.collect15, nsub = 340))
@@ -143,54 +159,17 @@ save2Rdata(torus15.340insubs1_3.aggrs)
 
 torus15.340insubs1_3.rates<-aggrSuccessRates(torus15.340insubs1_3.aggrs, c(2,1))
 
-##精度のプロット2
-suctrate.dim2_2<-list("300"=unlist(sucrate300sub.dim2),
-                      "310"=sucrate310sub.dim2,
-                      "320"=suctrate.dim2[["320"]],
-                      "330"=suctrate.dim2[["330"]],
-                      "340"=suctrate.dim2[["340"]],
-                      "350"=suctrate.dim2[["350"]])
+#350点
+torus15.350subs<-lapply(1:5, function(k)subsampleExclude(torus.collect15, nsub = 350))
+save2Rdata(torus15.350subs)
 
+torus15.350insubs<-lapply(torus15.350subs, function(sub)intering(sub))
+save2Rdata(torus15.350insubs)
 
+torus15.350insubs1_3.aggrs<-lapply(1:3, function(k){
+  cat("list", k, "calc\n")
+  return(proposedMethodOnly(torus15.350insubs[[k]], 2, 3, 10))})
+save2Rdata(torus15.350insubs1_3.aggrs)
 
-suctrate.dim2_2 %>% bind_cols() %>% gather(data, value) %>% ggplot(aes(data, value)) + geom_violin() + geom_point()
+torus15.350insubs1_3.rates<-aggrSuccessRates(torus15.350insubs1_3.aggrs, c(2,1))
 
-sucrate.dim2.tidy_2<-suctrate.dim2_2 %>% bind_cols() %>% gather(data, value)
-
-rate.dim2<-sucrate.dim2.tidy_2[,"value"]
-
-plot(sucrate.dim2.tidy_2, pch=16, cex.axis=1.6, xlab="Data Points", ylab="Success Rates", cex.lab=1.6, ylim=c(0.2, 1.0))
-
-sucdim2.mean_2<-sapply(suctrate.dim2_2, function(rate)mean(rate))
-lines(seq(300, 350, by=10), sucdim2.mean_2)
-
-sucdim2.sd_2<-sapply(suctrate.dim2_2, function(rate)sd(rate))
-lines(seq(300, 350, by=10), sucdim2.mean_2-sucdim2.sd_2, lty="dashed")
-lines(seq(300, 350, by=10), sucdim2.mean_2+sucdim2.sd_2, lty="dashed")
-
-#補間後の成功率まとめ
-insub300.rate<-c(torus15.300insubs1.rate[[1]][["dim2rate"]], torus15.300insubs2.rate[[1]][["dim2rate"]], torus15.300insubs3.rate[[1]][["dim2rate"]], 
-                 torus15.300insubs4_5rate[[1]][["dim2rate"]], torus15.300insubs4_5rate[[2]][["dim2rate"]])
-
-insub310.rate<-sapply(torus15.310insubs1_3.rates, function(rate){return(rate[[2]])})
-
-insub320.rate<-sapply(torus15.320insubs1_3.rates, function(rate){return(rate[[2]])})
-
-insub330.rate<-sapply(torus15.330insubs1_3.rates, function(rate){return(rate[[2]])})
-
-insub.rates<-list("300"=insub300.rate[1:3],
-                  "310"=insub310.rate,
-                  "320"=insub320.rate,
-                  "330"=insub330.rate)
-
-points(rep(300, 3), insub300.rate[1:3], col=2, pch=16)
-points(rep(310, 3), insub310.rate, col=2, pch=16)
-points(rep(320, 3), insub320.rate, col=2, pch=16)
-points(rep(330, 3), insub330.rate, col=2, pch=16)
-
-insubdim2.mean<-sapply(insub.rates, function(rate)mean(rate))
-lines(seq(300, 330, by=10), insubdim2.mean, col=2)
-
-insubdim2.sd<-sapply(insub.rates, function(rate)sd(rate))
-lines(seq(300, 330, by=10), insubdim2.mean-insubdim2.sd, lty="dashed", col=2)
-lines(seq(300, 330, by=10), insubdim2.mean+insubdim2.sd, lty="dashed", col=2)

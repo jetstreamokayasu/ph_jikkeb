@@ -180,7 +180,7 @@ sucrate330sub.dim2<-sapply(torus15.330rates[["330sub"]][["dim2"]], function(rate
 sucrate340sub.dim2<-sapply(torus15.340rates[["340sub"]][["dim2"]], function(rate){return(rate)})
 
 sucrate310sub.dim2<-sapply(torus15.310subs.rates, function(rate){return(rate[["dim2rate"]])})
-sucrate300sub2.dim2<-sapply(torus15.300subs.rates, function(rate){return(rate[["dim2rate"]])})
+sucrate300sub2.dim2<-sapply(torus15.300subs.rate, function(rate){return(rate[["dim2rate"]])})
 
 #精度のプロット
 suctrate.dim2<-list("300"=sucrate300sub2.dim2,
@@ -194,6 +194,8 @@ suctrate.dim2[["300"]]<-unlist(sucrate300sub.dim2)
 suctrate.dim2[["310"]]<-unlist(sucrate310sub.dim2)
 
 suctrate.dim2 %>% bind_cols() %>% gather(data, value) %>% ggplot(aes(data, value)) + geom_violin() + geom_point()
+
+save2Rdata(suctrate.dim2)
 
 sucrate.dim2.tidy<-suctrate.dim2 %>% bind_cols() %>% gather(data, value)
 
