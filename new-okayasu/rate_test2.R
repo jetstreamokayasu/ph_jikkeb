@@ -142,6 +142,7 @@ torus15.330insubs4_5.aggrs<-lapply(4:5, function(k){
   cat("list", k, "calc\n")
   return(proposedMethodOnly(torus15.330insubs[[k]], 2, 3, 10))})
 save2Rdata(torus15.330insubs4_5.aggrs)
+save(torus15.330insubs4_5.aggrs, file="torus15.330insubs4_5.aggrs.RData")
 
 torus15.330insubs4_5.rates<-aggrSuccessRates(torus15.330insubs4_5.aggrs, c(2,1))
 
@@ -165,6 +166,19 @@ torus15.350subs<-lapply(1:5, function(k)subsampleExclude(torus.collect15, nsub =
 save2Rdata(torus15.350subs)
 
 torus15.350insubs1_3.rates<-aggrSuccessRates(torus15.350insubs1_3.aggrs, c(2,1))
+
+#250点
+
+torus15.250subs<-lapply(1:5, function(k)subsampleExclude(torus.collect15, nsub = 250))
+save2Rdata(torus15.250subs)
+save(torus15.250subs, file="./data/torus15.250sub.RData")
+
+torus15.250subs1_3.aggrs<-lapply(1:3, function(k){
+  cat("list", k, "calc\n")
+  return(proposedMethodOnly(torus15.250subs[[k]], 2, 3, 10))})
+save2Rdata(torus15.250subs1_3.aggrs)
+save(torus15.250subs1_3.aggrs, file="./data/torus15.250sub1_3.aggrs.RData")
+
 
 ##精度のプロット2
 suctrate.dim2_2<-list("300"=unlist(sucrate300sub.dim2),
