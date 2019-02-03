@@ -206,8 +206,8 @@ sucrate.dim2.tidy_2<-suctrate.dim2_2 %>% bind_cols() %>% gather(data, value)
 
 rate.dim2<-sucrate.dim2.tidy_2[,"value"]
 
-plot(sucrate.dim2.tidy_2, pch=16, cex.axis=1.6, xlab="Data Points", ylab="Success Rates", cex.lab=1.6, ylim=c(0.2, 1.0), xaxt="n")
-axis(side=1, at=seq(300, 350, by=10), labels=c(paste0(seq(30, 35), "/π^2")))
+plot(sucrate.dim2.tidy_2, pch=16, cex.axis=1.6, xlab="Data Density", ylab="Success Rates", cex.lab=1.6, ylim=c(0.2, 1.0), xaxt="n")
+axis(side=1, at=seq(300, 350, by=10), labels=c(paste0(seq(30, 35), "/(π^2)")))
 
 sucdim2.mean_2<-sapply(suctrate.dim2_2, function(rate)mean(rate))
 lines(seq(300, 350, by=10), sucdim2.mean_2)
