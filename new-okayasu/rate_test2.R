@@ -13,7 +13,7 @@ require(foreach)
 require(plotly)
 require(viridis)
 require(pterrace)
-require(phacm)
+
 
 torus.collect15<- lapply(1:100, function(i){
   nsample <- 500
@@ -142,6 +142,7 @@ torus15.330insubs4_5.aggrs<-lapply(4:5, function(k){
   cat("list", k, "calc\n")
   return(proposedMethodOnly(torus15.330insubs[[k]], 2, 3, 10))})
 save2Rdata(torus15.330insubs4_5.aggrs)
+save(torus15.330insubs4_5.aggrs, file="torus15.330insubs4_5.aggrs.RData")
 
 torus15.330insubs4_5.rates<-aggrSuccessRates(torus15.330insubs4_5.aggrs, c(2,1))
 
@@ -159,12 +160,41 @@ save2Rdata(torus15.340insubs1_3.aggrs)
 
 torus15.340insubs1_3.rates<-aggrSuccessRates(torus15.340insubs1_3.aggrs, c(2,1))
 
+torus15.340insubs4_5.aggrs<-lapply(4:5, function(k){
+  cat("list", k, "calc\n")
+  return(proposedMethodOnly(torus15.340insubs[[k]], 2, 3, 10))})
+save2Rdata(torus15.340insubs4_5.aggrs)
+
+torus15.340insubs4_5.rates<-aggrSuccessRates(torus15.340insubs4_5.aggrs, c(2,1))
+
 #350点
 
 torus15.350subs<-lapply(1:5, function(k)subsampleExclude(torus.collect15, nsub = 350))
 save2Rdata(torus15.350subs)
 
 torus15.350insubs1_3.rates<-aggrSuccessRates(torus15.350insubs1_3.aggrs, c(2,1))
+
+#250点
+
+torus15.250subs<-lapply(1:5, function(k)subsampleExclude(torus.collect15, nsub = 250))
+save2Rdata(torus15.250subs)
+save(torus15.250subs, file="./data/torus15.250sub.RData")
+
+torus15.250subs1_3.aggrs<-lapply(1:3, function(k){
+  cat("list", k, "calc\n")
+  return(proposedMethodOnly(torus15.250subs[[k]], 2, 3, 10))})
+save2Rdata(torus15.250subs1_3.aggrs)
+save(torus15.250subs1_3.aggrs, file="./data/torus15.250sub1_3.aggrs.RData")
+
+torus15.250subs1_3.rates<-aggrSuccessRates(torus15.250subs1_3.aggrs, c(2,1))
+
+torus15.250insubs<-lapply(torus15.250subs, function(sub)intering(sub))
+save2Rdata(torus15.250insubs)
+
+torus15.250insubs1_3.aggrs<-lapply(1:3, function(k){
+  cat("list", k, "calc\n")
+  return(proposedMethodOnly(torus15.250insubs[[k]], 2, 3, 10))})
+save2Rdata(torus15.250insubs1_3.aggrs)
 
 ##精度のプロット2
 suctrate.dim2_2<-list("300"=unlist(sucrate300sub.dim2),
