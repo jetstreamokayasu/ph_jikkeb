@@ -102,3 +102,14 @@ plotAggr<-function(aggr, collect, correct, dim, compare=T, capture=0){
   return(arrange)
   
 }
+
+#リスト化された複数のPDを一括表示
+plotPDs<-function(diags){
+  
+  par(mfrow=c(((length(diags)%/%4)+1), 4))
+  for (k in 1:length(diags)) {
+    plot(diags[[k]][[1]])
+  }
+  #dev.off()
+  par(mfrow=c(1, 1))
+}
