@@ -46,6 +46,26 @@ trs15_in300_1_w1_10_pd<-lapply(wrong1_10, function(k)ripsDiag(torus15.300insubs[
 save2Rdata(trs15_in300_1_w1_10_pd)
 plotPDs(trs15_in300_1_w1_10_pd)
 
+trs15_300_1_w1_pl<-calcLandscape(trs15_300_1_w1_10_pd[[1]])
+trs15_in300_1_w1_pl<-calcLandscape(trs15_in300_1_w1_10_pd[[1]])
+
+trs15_300_1_w4_pl<-calcLandscape(trs15_300_1_w1_10_pd[[4]])
+trs15_in300_1_w4_pl<-calcLandscape(trs15_in300_1_w1_10_pd[[4]])
+
+trs15_300_1_w9_pl<-calcLandscape(trs15_300_1_w1_10_pd[[9]])
+trs15_in300_1_w9_pl<-calcLandscape(trs15_in300_1_w1_10_pd[[9]])
+
+#サブサンプルのPDを確かめる
+torus15.300subs1_2_subs<-lapply(1:10, function(k){
+  data<-torus15.300subs[[1]][[2]][["noizyX"]][sample(300, 300*0.8),]
+  return(data)
+})
+
+torus15.300subs1_2_subs_pds<-lapply(1:10, function(k)
+  ripsDiag(torus15.300subs1_2_subs[[k]], maxdimension = 2, maxscale = 3, printProgress = T))
+
+plotPDs(torus15.300subs1_2_subs_pds)
+
 #補間点の誤差を調べる
 trs15_in300_1_er<-calc_error(torus15.300insubs1_3[[1]][[1]][["noizyX"]], maxr = 2.5, minr = 1, nps = 300)
 
