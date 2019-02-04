@@ -35,3 +35,12 @@ plotPDs(trs15_in300_1_1_10_pd)
 trs15_300_1_2_pl<-calcLandscape(trs15_300_1_2_10_pd[[1]])
 trs15_in300_1_2_pl<-calcLandscape(trs15_in300_1_1_10_pd[[2]])
 
+#補間前に不正解なのと補間後に正解したデータセット比較
+wrong1_10<-which(torus15.300subs.aggrs[[1]][[2]] < 0.5)[1:10]
+trs15_300_1_w1_10_pd<-lapply(wrong1_10, function(k)ripsDiag(torus15.300subs[[1]][[k]][["noizyX"]], 2, 3, printProgress = T))
+save2Rdata(trs15_300_1_w1_10_pd)
+plotPDs(trs15_300_1_w1_10_pd)
+
+trs15_in300_1_w1_10_pd<-lapply(wrong1_10, function(k)ripsDiag(torus15.300insubs[[1]][[k]][["noizyX"]], 2, 3, printProgress = T))
+save2Rdata(trs15_in300_1_w1_10_pd)
+plotPDs(trs15_in300_1_w1_10_pd)
