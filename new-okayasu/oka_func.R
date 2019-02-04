@@ -34,8 +34,8 @@ calcLandscape<-function(diag, line=T){
   plot(tseq, Land.dim1, type = "l", col=2, xlab = "(Birth + Death) / 2",ylab = "(Death - Birth) / 2", ylim=c(0, round(max(Land.dim1)+1)/2), main ="1-degree landscape")
   if(line){
   abline(h=thresh)
-  abline(h=thresh.kde/2, col=4)
-  abline(h=thresh.zero, col="orange")
+  #abline(h=thresh.kde/2, col=4)
+  #abline(h=thresh.zero, col="orange")
   }
   
   if(length(diag[[1]][diag[[1]][,1]==2,])>0){
@@ -44,8 +44,8 @@ calcLandscape<-function(diag, line=T){
     plot(tseq, Land.dim2, type = "l", col=3, xlab = "(Birth + Death) / 2",ylab = "(Death - Birth) / 2", ylim=c(0, round(max(Land.dim2)+1)/2), main ="2-degree landscape")
     if(line){
     abline(h=thresh/2)
-    abline(h=thresh.kde/4, col=4)
-    abline(h=thresh.zero/2, col="orange")
+    #abline(h=thresh.kde/4, col=4)
+    #abline(h=thresh.zero/2, col="orange")
     }
     
     return(list(tseq=tseq, Land.dim1=Land.dim1, Land.dim2=Land.dim2))
