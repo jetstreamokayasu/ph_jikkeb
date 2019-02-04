@@ -35,6 +35,7 @@ plotPDs(trs15_in300_1_1_10_pd)
 trs15_300_1_2_pl<-calcLandscape(trs15_300_1_2_10_pd[[1]])
 trs15_in300_1_2_pl<-calcLandscape(trs15_in300_1_1_10_pd[[2]])
 
+
 #補間前に不正解なのと補間後に正解したデータセット比較
 wrong1_10<-which(torus15.300subs.aggrs[[1]][[2]] < 0.5)[1:10]
 trs15_300_1_w1_10_pd<-lapply(wrong1_10, function(k)ripsDiag(torus15.300subs[[1]][[k]][["noizyX"]], 2, 3, printProgress = T))
@@ -44,3 +45,13 @@ plotPDs(trs15_300_1_w1_10_pd)
 trs15_in300_1_w1_10_pd<-lapply(wrong1_10, function(k)ripsDiag(torus15.300insubs[[1]][[k]][["noizyX"]], 2, 3, printProgress = T))
 save2Rdata(trs15_in300_1_w1_10_pd)
 plotPDs(trs15_in300_1_w1_10_pd)
+
+#補間点の誤差を調べる
+trs15_in300_1_er<-calc_error(torus15.300insubs1_3[[1]][[1]][["noizyX"]], maxr = 2.5, minr = 1, nps = 300)
+
+trs15_in300_1ers<-lapply(1:100, function(i)calc_error(torus15.300insubs1_3[[1]][[i]][["noizyX"]], maxr = 2.5, minr = 1, nps = 300))
+par(mgp=c(2.5,1,0))
+boxplot(trs15_in300_1ers[1:50], xlab="Data Set", ylab="Error", cex.lab=1.6, cex.axis=1.6)
+
+oldpar <- par(no.readonly=T)
+

@@ -88,6 +88,10 @@ torus15.300insubs3.aggr<-proposedMethodOnly(torus15.300insubs1_3[[3]], maxdim = 
 save2Rdata(torus15.300insubs3.aggr)
 torus15.300insubs3.rate<-aggrSuccessRates(list(torus15.300insubs3.aggr), c(2,1))
 
+#300点
+torus15.300insubs<-lapply(torus15.300subs, function(sub)intering(sub))
+save2Rdata(torus15.300insubs)
+
 #310点
 torus15.310insubs1_3.aggrs<-lapply(1:3, function(k){
   cat("list", k, "calc\n")
@@ -222,8 +226,12 @@ sucrate.dim2.tidy_2<-suctrate.dim2_2 %>% bind_cols() %>% gather(data, value)
 
 rate.dim2<-sucrate.dim2.tidy_2[,"value"]
 
+oldpar <- par(no.readonly=T)
+
 plot(sucrate.dim2.tidy_2, pch=16, cex.axis=1.6, xlab="Data Density", ylab="Success Rates", cex.lab=1.6, ylim=c(0.2, 1.0), xaxt="n")
-axis(side=1, at=seq(300, 350, by=10), labels=c(paste0(seq(30, 35), "/(π^2)")))
+par(family = "serif")
+par(family="")
+axis(side=1, at=seq(300, 350, by=10), labels=c(paste0(seq(30, 35), "/(pi^2)")), cex.axis=1.1)
 
 sucdim2.mean_2<-sapply(suctrate.dim2_2, function(rate)mean(rate))
 lines(seq(300, 350, by=10), sucdim2.mean_2)
