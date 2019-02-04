@@ -646,3 +646,36 @@ calc_error<-function(figure, maxr, minr, nps){
   return(error)
   
 }
+
+
+torus_disterror<-function(figure, maxr, minr, nps){
+  
+  require(tidyverse)
+  
+  error<-lapply((nps+1):(nrow(figure)), function(i){
+    
+    #debugText(i)
+    
+    al<-figure[i, 1]
+    be<-figure[i, 2]
+    
+    x1<-sqrt(al^2+be^2) %>% {maxr*(al/.)}
+    y1<-sqrt(al^2+be^2) %>% {maxr*(be/.)}
+    
+    dist<-dist(rbind(figure[i,], c(x1, y1, 0)))
+    
+    #debugText(dist)
+    
+    dister<-dist-minr
+    
+    #ebugText(er)
+    
+    return(dister)
+    
+  })
+  
+  error<-unlist(error)
+  
+  return(error)
+  
+}

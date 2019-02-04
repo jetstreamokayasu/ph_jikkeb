@@ -55,3 +55,5 @@ boxplot(trs15_in300_1ers[1:50], xlab="Data Set", ylab="Error", cex.lab=1.6, cex.
 
 oldpar <- par(no.readonly=T)
 
+trs15_in300_1_1_der<-torus_disterror(torus15.300insubs1_3[[1]][[1]][["noizyX"]], maxr = 2.5, minr = 1, nps = 300)
+hist(trs15_in300_1_1_der, col="#993435")
