@@ -35,3 +35,11 @@ plotPDs(trs15_in300_1_1_10_pd)
 trs15_300_1_2_pl<-calcLandscape(trs15_300_1_2_10_pd[[1]])
 trs15_in300_1_2_pl<-calcLandscape(trs15_in300_1_1_10_pd[[2]])
 
+#補間点の誤差を調べる
+trs15_in300_1_er<-calc_error(torus15.300insubs1_3[[1]][[1]][["noizyX"]], maxr = 2.5, minr = 1, nps = 300)
+
+trs15_in300_1ers<-lapply(1:100, function(i)calc_error(torus15.300insubs1_3[[1]][[i]][["noizyX"]], maxr = 2.5, minr = 1, nps = 300))
+par(mgp=c(2.5,1,0))
+boxplot(trs15_in300_1ers[1:50], xlab="Data Set", ylab="Error", cex.lab=1.6, cex.axis=1.6)
+
+oldpar <- par(no.readonly=T)

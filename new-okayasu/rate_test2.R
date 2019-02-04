@@ -88,6 +88,10 @@ torus15.300insubs3.aggr<-proposedMethodOnly(torus15.300insubs1_3[[3]], maxdim = 
 save2Rdata(torus15.300insubs3.aggr)
 torus15.300insubs3.rate<-aggrSuccessRates(list(torus15.300insubs3.aggr), c(2,1))
 
+#300点
+torus15.300insubs<-lapply(torus15.300subs, function(sub)intering(sub))
+save2Rdata(torus15.300insubs)
+
 #310点
 torus15.310insubs1_3.aggrs<-lapply(1:3, function(k){
   cat("list", k, "calc\n")
