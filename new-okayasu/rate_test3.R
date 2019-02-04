@@ -55,6 +55,12 @@ trs15_in300_1_w4_pl<-calcLandscape(trs15_in300_1_w1_10_pd[[4]])
 trs15_300_1_w9_pl<-calcLandscape(trs15_300_1_w1_10_pd[[9]])
 trs15_in300_1_w9_pl<-calcLandscape(trs15_in300_1_w1_10_pd[[9]])
 
+trs15_300_1_w1_10_pls<-lapply(1:10, function(k)calcLandscape(trs15_300_1_w1_10_pd[[k]]))
+plot_2ndpls(trs15_300_1_w1_10_pls)
+
+trs15_in300_1_w1_10_pls<-lapply(1:10, function(k)calcLandscape(trs15_in300_1_w1_10_pd[[k]]))
+plot_2ndpls(trs15_in300_1_w1_10_pls)
+
 #サブサンプルのPDを確かめる
 torus15.300subs1_2_subs<-lapply(1:10, function(k){
   data<-torus15.300subs[[1]][[2]][["noizyX"]][sample(300, 300*0.8),]
