@@ -48,15 +48,35 @@ calcLandscape<-function(diag, line=T){
     #abline(h=thresh.zero/2, col="orange")
     }
     
-    return(list(tseq=tseq, Land.dim1=Land.dim1, Land.dim2=Land.dim2))
+    return(list(tseq=tseq, Land.dim1=Land.dim1, Land.dim2=Land.dim2, thresh=thresh))
     
-  }else{return(list(tseq=tseq, Land.dim1=Land.dim1))}
+  }else{return(list(tseq=tseq, Land.dim1=Land.dim1, thresh=thresh))}
 }
 
 #ランドスケープを描写
 plotLandscape<-function(land){
   
-  plotland<-lapply(2:length(land), function(k)plot(land[[1]], land[[k]], type = "l", col=k, xlab = "(Birth + Death) / 2",ylab = "(Death - Birth) / 2", ylim=c(0, round(max(land[[k]])+1)/2), main =paste0(k-1, "-degree landscape")))
+  plotland<-lapply(2:(length(land)-1), function(k){
+    
+    if(names(land)[k]=="Land.dim1"){
+    
+    plot(land[[1]], land[[k]], type = "l", col=k, xlab = "(Birth + Death) / 2",ylab = "(Death - Birth) / 2", ylim=c(0, round(max(land[[k]])+1)/2), main =paste0(k-1, "-degree landscape"))
+    abline(h=land[["thresh"]])
+      
+    }
+    
+    else if(names(land)[k]=="Land.dim2"){
+      
+      plot(land[[1]], land[[k]], type = "l", col=3, xlab = "(Birth + Death) / 2",ylab = "(Death - Birth) / 2", ylim=c(0, round(max(land[[k]])+1)/2), main =paste0(2, "-degree landscape"))
+      abline(h=land[["thresh"]]/2)
+      
+    }else{
+      
+      plot(land[[1]], land[[k]], type = "l", col=k, xlab = "(Birth + Death) / 2",ylab = "(Death - Birth) / 2", ylim=c(0, round(max(land[[k]])+1)/2), main =paste0(k-1, "-degree landscape"))
+      
+    }
+    
+    })
   
 }
 
