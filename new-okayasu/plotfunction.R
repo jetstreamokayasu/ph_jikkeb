@@ -108,7 +108,7 @@ plotPDs<-function(diags){
   
   par(mfrow=c(((length(diags)%/%4)+1), 4))
   for (k in 1:length(diags)) {
-    plot(diags[[k]][[1]])
+    plot(diags[[k]][[1]], cex.lab=1.6, cex.axis=1.6)
   }
   #dev.off()
   par(mfrow=c(1, 1))
