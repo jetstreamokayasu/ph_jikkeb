@@ -71,6 +71,7 @@ torus15.300subs1_2_subs_pds<-lapply(1:10, function(k)
   ripsDiag(torus15.300subs1_2_subs[[k]], maxdimension = 2, maxscale = 3, printProgress = T))
 
 plotPDs(torus15.300subs1_2_subs_pds)
+save2Rdata(torus15.300subs1_2_subs_pds)
 
 torus15.300subs1_2_subs_pls1_5<-plot_pls(torus15.300subs1_2_subs_pds[1:5])
 torus15.300subs1_2_subs_pls6_10<-plot_pls(torus15.300subs1_2_subs_pds[6:10])
@@ -126,7 +127,7 @@ oldpar <- par(no.readonly=T)
 trs15_in300_1_1_der<-torus_disterror(torus15.300insubs1_3[[1]][[1]][["noizyX"]], maxr = 2.5, minr = 1, nps = 300)
 hist(trs15_in300_1_1_der, col="#993435")
 
-<<<<<<< HEAD
+
 trs15_in300_1_w1_10ers<-lapply(wrong1_10, function(i)torus_disterror(torus15.300insubs1_3[[1]][[i]][["noizyX"]], maxr = 2.5, minr = 1, nps = 300))
 par(mgp=c(2.5,1,0))
 boxplot(trs15_in300_1_w1_10ers, xlab="Data Set", ylab="Error", cex.lab=1.6, cex.axis=1.6)
@@ -141,6 +142,7 @@ bpls<-lapply(trs15_300_1_w1_10_pls, function(land){
   abline(h=land[["thresh"]]/2)
   
 })
+save2Rdata(trs15_300_1_w1_10_pls)
 
 #mtext(side = 3, line=1, outer=T, text = "Title", cex=2)
 
@@ -150,6 +152,7 @@ apls<-lapply(trs15_in300_1_w1_10_pls, function(land){
   abline(h=land[["thresh"]]/2)
   
 })
+save2Rdata(trs15_in300_1_w1_10_pls)
 
 bspls<-lapply(torus15.300subs1_2_subs_pls, function(land){
   
@@ -157,6 +160,7 @@ bspls<-lapply(torus15.300subs1_2_subs_pls, function(land){
   abline(h=land[["thresh"]]/2)
   
 })
+save2Rdata(torus15.300subs1_2_subs_pls)
 
 aspls<-lapply(torus15.300insubs1_2_subs_pls, function(land){
   
@@ -164,6 +168,7 @@ aspls<-lapply(torus15.300insubs1_2_subs_pls, function(land){
   abline(h=land[["thresh"]]/2)
   
 })
+save2Rdata(torus15.300insubs1_2_subs_pls)
 
 par(oldpar)
 
@@ -173,7 +178,7 @@ rgl.postscript("./data/b_torus.eps", fmt="eps" )
 
 points3d(torus15.300insubs[[1]][[2]][["noizyX"]][300:torus15.300insubs[[1]][[2]][["nsample"]] ,], col=2)
 rgl.postscript("./data/a_torus.eps", fmt="eps" ) 
-=======
+
 trs15_in300_1ders<-lapply(1:100, function(i)torus_disterror(torus15.300insubs1_3[[1]][[i]][["noizyX"]], maxr = 2.5, minr = 1, nps = 300))
 boxplot(trs15_in300_1ders[1:50], xlab="Data Set", ylab="Error", cex.lab=1.6, cex.axis=1.6)
->>>>>>> c070ecae47986bb7d45452c8193b18f7ca08e2e5
+
