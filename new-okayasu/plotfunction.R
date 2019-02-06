@@ -131,12 +131,18 @@ plot_pls<-function(diags){
 }
 
 #リスト化された2次PLを一括表示
-plot_2ndpls<-function(lands){
+plot_2ndpls<-function(lands, vert=F){
   
-  par(mfrow=c(((length(lands)%/%4)+1), 4))
+  oldpar<-par(no.readonly=T)
+  par(cex.lab=2, cex.main=2, cex.axis=2, plt = c(0.2, 0.9, 0.2, 0.9))
+  
+  if(vert==T){par(mfrow=c(2, (length(lands)%/%2+length(lands)%%2)))}
+  else{par(mfrow=c(((length(lands)%/%4)+1), 4))}
   for (k in 1:length(lands)) {
     plotLandscape(lands[[k]][-2])
   }
   #dev.off()
-  par(mfrow=c(1, 1))
+  #par(mfrow=c(1, 1))
+  par(oldpar)
+
 }

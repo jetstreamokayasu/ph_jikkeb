@@ -56,7 +56,7 @@ trs15_300_1_w9_pl<-calcLandscape(trs15_300_1_w1_10_pd[[9]])
 trs15_in300_1_w9_pl<-calcLandscape(trs15_in300_1_w1_10_pd[[9]])
 
 trs15_300_1_w1_10_pls<-lapply(1:10, function(k)calcLandscape(trs15_300_1_w1_10_pd[[k]]))
-plot_2ndpls(trs15_300_1_w1_10_pls)
+plot_2ndpls(trs15_300_1_w1_10_pls, vert = T)
 
 trs15_in300_1_w1_10_pls<-lapply(1:10, function(k)calcLandscape(trs15_in300_1_w1_10_pd[[k]]))
 plot_2ndpls(trs15_in300_1_w1_10_pls)
@@ -125,3 +125,50 @@ oldpar <- par(no.readonly=T)
 
 trs15_in300_1_1_der<-torus_disterror(torus15.300insubs1_3[[1]][[1]][["noizyX"]], maxr = 2.5, minr = 1, nps = 300)
 hist(trs15_in300_1_1_der, col="#993435")
+
+trs15_in300_1_w1_10ers<-lapply(wrong1_10, function(i)torus_disterror(torus15.300insubs1_3[[1]][[i]][["noizyX"]], maxr = 2.5, minr = 1, nps = 300))
+par(mgp=c(2.5,1,0))
+boxplot(trs15_in300_1_w1_10ers, xlab="Data Set", ylab="Error", cex.lab=1.6, cex.axis=1.6)
+
+#PL一括表示
+oldpar<-par(no.readonly=T)
+par(cex.lab=3, cex.main=3, cex.axis=3, plt = c(0.2, 0.9, 0.2, 0.9), mfrow=c(2, 5), mgp=c(3.5,1,0))
+
+bpls<-lapply(trs15_300_1_w1_10_pls, function(land){
+  
+  plot(land[[1]], land[["Land.dim2"]], type = "l", col=3, xlab = "(Birth + Death) / 2", ylab = "(Death - Birth) / 2", ylim=c(0, 0.3))
+  abline(h=land[["thresh"]]/2)
+  
+})
+
+#mtext(side = 3, line=1, outer=T, text = "Title", cex=2)
+
+apls<-lapply(trs15_in300_1_w1_10_pls, function(land){
+  
+  plot(land[[1]], land[["Land.dim2"]], type = "l", col=3, xlab = "(Birth + Death) / 2", ylab = "(Death - Birth) / 2", ylim=c(0, 0.3))
+  abline(h=land[["thresh"]]/2)
+  
+})
+
+bspls<-lapply(torus15.300subs1_2_subs_pls, function(land){
+  
+  plot(land[[1]], land[["Land.dim2"]], type = "l", col=3, xlab = "(Birth + Death) / 2", ylab = "(Death - Birth) / 2", ylim=c(0, 0.3))
+  abline(h=land[["thresh"]]/2)
+  
+})
+
+aspls<-lapply(torus15.300insubs1_2_subs_pls, function(land){
+  
+  plot(land[[1]], land[["Land.dim2"]], type = "l", col=3, xlab = "(Birth + Death) / 2", ylab = "(Death - Birth) / 2", ylim=c(0, 0.3))
+  abline(h=land[["thresh"]]/2)
+  
+})
+
+par(oldpar)
+
+#補間前後のトーラスプロット
+figurePlot(torus15.300subs[[1]][[2]][["noizyX"]][1:300,])
+rgl.postscript("./data/b_torus.eps", fmt="eps" ) 
+
+points3d(torus15.300insubs[[1]][[2]][["noizyX"]][300:torus15.300insubs[[1]][[2]][["nsample"]] ,], col=2)
+rgl.postscript("./data/a_torus.eps", fmt="eps" ) 
