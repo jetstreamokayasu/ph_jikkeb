@@ -183,6 +183,8 @@ torus15.350insubs4_5.aggrs<-lapply(4:5, function(k){
   return(proposedMethodOnly(torus15.350insubs[[k]], 2, 3, 10))})
 save2Rdata(torus15.350insubs4_5.aggrs)
 
+torus15.350insubs4_5.rates<-aggrSuccessRates(torus15.350insubs4_5.aggrs, c(2,1))
+
 #250点
 
 torus15.250subs<-lapply(1:5, function(k)subsampleExclude(torus.collect15, nsub = 250))

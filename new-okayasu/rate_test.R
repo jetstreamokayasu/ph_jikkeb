@@ -131,7 +131,9 @@ torus15.300rates<-succesCheck(torus.collect15, nsubset=300,
                            times=5, maxdim=2, mxscale=3, corrects=c(2,1))
 
 trus15.diag1<-ripsDiag(torus.collect15[[1]][["noizyX"]], 2, 3)
+par(cex.lab=1.6, cex.axis=1.6)
 plot(trus15.diag1[[1]])
+save2Rdata(trus15.diag1)
 
 trus15.diag1a<-compute_pd(torus.collect15[[1]][["noizyX"]], 2, 3)
 autoplot(trus15.diag1a)
@@ -146,8 +148,9 @@ trus15.betti1<-count_smooth_maximal(trus15.pl1)
 
 trus15.pL1<-calcLandscape(trus15.diag1)
 plot(trus15.pL1$tseq, trus15.pL1$Land.dim1, type = "l", col=2, xlab = "(Birth + Death) / 2",ylab = "(Death - Birth) / 2", ylim=c(0, 1), cex.lab=1.6, cex.axis=1.6, lwd=2)
-par(new=T)
+par(new=T, mgp=c(2.5, 1, 0))
 plot(trus15.pL1$tseq, trus15.pL1$Land.dim2, type = "l", col=3, xlab = "(Birth + Death) / 2",ylab = "(Death - Birth) / 2", ylim=c(0, 1), cex.lab=1.6, cex.axis=1.6, lwd=2)
+par(mgp=c(2.5, 1, 0))
 legend("topleft", legend = c("dim1", "dim2"), col = c(2, 3), lty = 1, cex=1.5, lwd = 2)
 
 peak<-calc.landscape.peak(trus15.pL1$Land.dim1, thresh = calcPerMeanNoDouble(trus15.diag1[[1]]), tseq = trus15.pL1$tseq, show = T)
