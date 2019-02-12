@@ -182,3 +182,126 @@ rgl.postscript("./data/a_torus.eps", fmt="eps" )
 trs15_in300_1ders<-lapply(1:100, function(i)torus_disterror(torus15.300insubs1_3[[1]][[i]][["noizyX"]], maxr = 2.5, minr = 1, nps = 300))
 boxplot(trs15_in300_1ders[1:50], xlab="Data Set", ylab="Error", cex.lab=1.6, cex.axis=1.6)
 
+#animation試し
+library(animation)
+library(jpeg)
+library(magick)
+library("tcltk2")
+
+#基本的な使い方:saveGIFコマンド
+#画像の切替間隔(秒):intervalオプション
+#ファイル名:movie.nameオプション
+#作業フォルダに出力されます
+saveGIF({
+  #繰り返し回数を設定する 
+  for (i in 1:5){
+    #処理内容を記述する
+    plot(runif(10), ylim = c(0,1))
+  }
+}, interval = 1.0, movie.name = "TEST.gif")
+
+###「jpeg」パッケージと連携して写真をGIFアニメーション化#####
+#jpgファイルの保存フォルダを指定
+OpenFiles <- paste(as.character(tkchooseDirectory(title = "~/R/実験データ/2019_02_10"), sep = "", collapse =""))
+
+#OpenFiles<-todaywd()
+
+#保存フォルダを作業フォルダに変更
+setwd(OpenFiles)
+
+#フォルダ内のファイルを取得
+ItemList <- list.files(path = OpenFiles)
+
+#gifアニメーションを作成
+par(mar = c(0, 0, 0, 0))
+par(oma = c(0, 0, 0, 0))
+saveGIF(
+  
+  for (i in seq(length(ItemList))){
+    
+    PlotJpg <- readJPEG(ItemList[i])
+    plot(0:1, 0:1, type = "n", axes = FALSE, xlab = "", ylab = "", asp = 1)
+    rasterImage(PlotJpg, 0, 1, 1, 0)
+    
+  },
+  
+  interval = 1.0, movie.name = "Animetion.gif")
+
+wave <- function() {
+  for(t in 1:100) {
+    plot(function(x){ sin(x + 0.08 * pi * t) },
+         -pi, 2*pi, xlab="x", ylab="sin(x)",
+         col="blue", lwd=3)
+  }
+}
+
+saveGIF(wave(), interval=0.05, moviename="wave",
+          movietype="gif", outdir=getwd(),
+          width=640, height=480)
+
+xa<-c(-3, -2, -1, 0)
+yb<-c(2, 0, 3, 1)
+plot(xa, yb, pch=20, xlim=c(-6, 4), ylim=c(-3, 7))
+
+plot.circle <- function(x, y, r){
+  theta <- seq(-pi, pi, length=100)
+  polygon(x + r*cos(theta), y + r*sin(theta), col="gray")
+}
+
+sapply(1:6, function(k)plot.circle(xa[k], yb[k], sqrt(17)/2))
+
+saveGIF({
+  rs<-seq(0.1, 2, length=20)
+  cat("alpha\n")
+  for (i in 1:20){
+    r<-rs[i]
+    theta <- seq(-pi, pi, length=100)
+    cat("r=", r)
+    plot(xa, yb, pch=20, xlim=c(-6, 4), ylim=c(-3, 7), typ="n")
+    for(k in 1:4){
+      polygon(xa[k] + r*cos(theta), yb[k] + r*sin(theta), col="gray")
+      #debugText(xa[k], yb[k])
+      }
+    #plot.circle(xa[i], yb[i], 0.5)
+    par(new=T)
+    plot(xa, yb, pch=20, xlim=c(-6, 4), ylim=c(-3, 7))
+  }
+}, interval = 0.5, movie.name = "circ.gif", width=640, height=640)
+
+
+
+xa<-c(-3, -2, -1, 0)
+yb<-c(2, 0, 3, 1)
+xy<-cbind(xa, yb)
+xy.dist<-dist(xy) %>% as.matrix()
+
+oopts <- ani.options(ffmpeg = paste0(getwd(), "//ffmpeg.exe"), interval = 0.1, nmax=1000)
+ani.options(oopts)
+saveVideo({
+  rs<-seq(0.05, 3.1/2, length=100)
+  theta <- seq(-pi, pi, length=100)
+  cat("start\n")
+  for (i in 1:100){
+    r<-rs[i]
+    plot(xa, yb, pch=20, xlim=c(-6, 4), ylim=c(-3, 7), typ="n")
+    for(k in 1:4){
+      polygon(xa[k] + r*cos(theta), yb[k] + r*sin(theta), col="pink")
+      
+    }
+    #cat("TF=", (xy.dist < r & xy.dist > 0), "\n")
+    #cat("r=", r, "\n")
+    if(T %in% (xy.dist < 2*r & xy.dist > 0)){
+      
+      grp<-which(xy.dist!=0 & xy.dist >= r*2, arr.ind=TRUE)
+      #cat("dist=", grp, "\n")
+      for(j in 1:nrow(grp))
+      lines(c(xy[grp[j, 1], 1], xy[grp[j, 2], 1]), c(xy[grp[j, 1], 2], xy[grp[j, 2],2]))
+      # cat("nrow=", nrow(grp), "\n")
+      # cat("xy1=", xy[grp[j, 1], ], "\n")
+      # cat("xy2=", xy[grp[j, 2], ], "\n")
+      #cat("r=", r, "\n")
+    }
+    par(new=T)
+    plot(xa, yb, pch=20, xlim=c(-6, 4), ylim=c(-3, 7))
+  }
+}, video.name = "circ.mp4")

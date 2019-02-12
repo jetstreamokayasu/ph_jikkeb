@@ -4,3 +4,7 @@
 .Ruserdata
 
 data/
+
+*.gif
+*.exe
+*.mp4
