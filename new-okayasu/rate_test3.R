@@ -271,19 +271,20 @@ saveGIF({
 
 
 xa<-c(-3, -2, -1, 0)
-yb<-c(2, 0, 3, 1)
+yb<-c(2, 0, 3, 0.5)
 xy<-cbind(xa, yb)
 xy.dist<-dist(xy) %>% as.matrix()
+xydist<-dist(xy)
 
 oopts <- ani.options(ffmpeg = paste0(getwd(), "//ffmpeg.exe"), interval = 0.1, nmax=1000)
 ani.options(oopts)
 saveVideo({
-  rs<-seq(0.05, 3.1/2, length=100)
+  rs<-seq(0.05, 3.4/2, length=100)
   theta <- seq(-pi, pi, length=100)
   cat("start\n")
   for (i in 1:100){
     r<-rs[i]
-    plot(xa, yb, pch=20, xlim=c(-6, 4), ylim=c(-3, 7), typ="n")
+    plot(xa, yb, xlim=c(-6, 4), ylim=c(-3, 7), typ="n")
     for(k in 1:4){
       polygon(xa[k] + r*cos(theta), yb[k] + r*sin(theta), col="pink")
       
@@ -292,16 +293,68 @@ saveVideo({
     #cat("r=", r, "\n")
     if(T %in% (xy.dist < 2*r & xy.dist > 0)){
       
-      grp<-which(xy.dist!=0 & xy.dist >= r*2, arr.ind=TRUE)
+      grp<-which(xy.dist!=0 & xy.dist < r*2, arr.ind=TRUE)
       #cat("dist=", grp, "\n")
+      # cat("nrow=", nrow(grp), "\n")
+      #  cat("xy1=", xy[grp[j, 1], ], "\n")
+      #  cat("xy2=", xy[grp[j, 2], ], "\n")
+      # cat("r=", r, "\n")
       for(j in 1:nrow(grp))
-      lines(c(xy[grp[j, 1], 1], xy[grp[j, 2], 1]), c(xy[grp[j, 1], 2], xy[grp[j, 2],2]))
+      lines(c(xy[grp[j, 1], 1], xy[grp[j, 2], 1]), c(xy[grp[j, 1], 2], xy[grp[j, 2],2]), col=2)
       # cat("nrow=", nrow(grp), "\n")
       # cat("xy1=", xy[grp[j, 1], ], "\n")
       # cat("xy2=", xy[grp[j, 2], ], "\n")
       #cat("r=", r, "\n")
     }
+    
     par(new=T)
-    plot(xa, yb, pch=20, xlim=c(-6, 4), ylim=c(-3, 7))
+    plot(xa, yb, pch=20, xlim=c(-6, 4), ylim=c(-3, 7), cex=2)
+    
+    if(r*2 > xydist[order(-xydist)[2]]){
+      
+      polygon(c(-2, 0, -1, -3), c(0, 0.5, 3, 2), density = 10, angle = -45, col=1)
+      
+    }
   }
 }, video.name = "circ.mp4")
+
+
+saveGIF({
+  rs<-seq(0.05, 3.4/2, length=100)
+  theta <- seq(-pi, pi, length=100)
+  cat("start\n")
+  for (i in 1:100){
+    r<-rs[i]
+    plot(xa, yb, xlim=c(-6, 4), ylim=c(-3, 7), typ="n")
+    for(k in 1:4){
+      polygon(xa[k] + r*cos(theta), yb[k] + r*sin(theta), col="pink")
+      
+    }
+    #cat("TF=", (xy.dist < r & xy.dist > 0), "\n")
+    #cat("r=", r, "\n")
+    if(T %in% (xy.dist < 2*r & xy.dist > 0)){
+      
+      grp<-which(xy.dist!=0 & xy.dist < r*2, arr.ind=TRUE)
+      #cat("dist=", grp, "\n")
+      # cat("nrow=", nrow(grp), "\n")
+      #  cat("xy1=", xy[grp[j, 1], ], "\n")
+      #  cat("xy2=", xy[grp[j, 2], ], "\n")
+      # cat("r=", r, "\n")
+      for(j in 1:nrow(grp))
+        lines(c(xy[grp[j, 1], 1], xy[grp[j, 2], 1]), c(xy[grp[j, 1], 2], xy[grp[j, 2],2]), col=2)
+      # cat("nrow=", nrow(grp), "\n")
+      # cat("xy1=", xy[grp[j, 1], ], "\n")
+      # cat("xy2=", xy[grp[j, 2], ], "\n")
+      #cat("r=", r, "\n")
+    }
+    
+    par(new=T)
+    plot(xa, yb, pch=20, xlim=c(-6, 4), ylim=c(-3, 7), cex=2)
+    
+    if(r*2 > xydist[order(-xydist)[2]]){
+      
+      polygon(c(-2, 0, -1, -3), c(0, 0.5, 3, 2), density = 10, angle = -45, col=1)
+      
+    }
+  }
+}, interval = 0.1, movie.name = "test.gif")
