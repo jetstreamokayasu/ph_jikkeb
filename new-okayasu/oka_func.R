@@ -699,3 +699,12 @@ torus_disterror<-function(figure, maxr, minr, nps){
   return(error)
   
 }
+
+per_mean<-function(pd){
+  
+  mean<-zero_hat_double_threshold(pd)
+  
+  return(mean/2)
+  
+}
+
