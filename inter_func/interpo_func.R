@@ -1,4 +1,4 @@
-#start, endで区切られた範囲にデータ点が存在しするかしないかを判定する関数
+ #start, endで区切られた範囲にデータ点が存在しするかしないかを判定する関数
 #存在する場合はT、存在しない場合はFを返す
 existCheck<-function(start, end, mapped){
   

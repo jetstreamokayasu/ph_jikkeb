@@ -3,6 +3,7 @@ require(tidyverse)
 require(TDA)
 require(myfs)
 require(rgl)
+library(seephacm)
 
 #補間前後のPD比較
 #300点トーラス
