@@ -34,6 +34,9 @@ trs16_4_phapd<-compute_pd(torus.collect16[[4]], 2, 3)
 trs16_4_tdapd<-ripsDiag(torus.collect16[[4]], 2, 3)
 
 trs16_5_phapd<-compute_pd(torus.collect16[[5]], 2, 3)
+
 trs16_5_tdapd<-ripsDiag(torus.collect16[[5]], 2, 3)
+
+autoplot(trs16_5_phapd)
 
 trs16_4_5_lands<-lapply(list(trs16_4_tdapd,trs16_5_tdapd), function(land){seephacm::calc_landscape(diag=land, maxscale = 3)})

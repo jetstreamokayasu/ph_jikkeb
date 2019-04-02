@@ -253,17 +253,17 @@ lines(seq(300, 350, by=10), sucdim2.mean_2+sucdim2.sd_2, lty="dashed")
 insub300.rate<-c(torus15.300insubs1.rate[[1]][["dim2rate"]], torus15.300insubs2.rate[[1]][["dim2rate"]], torus15.300insubs3.rate[[1]][["dim2rate"]], 
                  torus15.300insubs4_5rate[[1]][["dim2rate"]], torus15.300insubs4_5rate[[2]][["dim2rate"]])
 
-insub310.rate<-sapply(torus15.310insubs1_3.rates, function(rate){return(rate[[2]])})
+insub310.rate<-sapply(append(torus15.310insubs1_3.rates, torus15.310insubs4_5.rates), function(rate){return(rate[[2]])})
 
-insub320.rate<-sapply(torus15.320insubs1_3.rates, function(rate){return(rate[[2]])})
+insub320.rate<-sapply(append(torus15.320insubs1_3.rates, torus15.320insubs4_5.rates), function(rate){return(rate[[2]])})
 
-insub330.rate<-sapply(torus15.330insubs1_3.rates, function(rate){return(rate[[2]])})
+insub330.rate<-sapply(append(torus15.330insubs1_3.rates, torus15.330insubs4_5.rates), function(rate){return(rate[[2]])})
 
-insub340.rate<-sapply(torus15.340insubs1_3.rates, function(rate){return(rate[[2]])})
+insub340.rate<-sapply(append(torus15.340insubs1_3.rates, torus15.340insubs4_5.rates), function(rate){return(rate[[2]])})
 
-insub350.rate<-sapply(torus15.350insubs1_3.rates, function(rate){return(rate[[2]])})
+insub350.rate<-sapply(append(torus15.350insubs1_3.rates, torus15.350insubs4_5.rates), function(rate){return(rate[[2]])})
 
-insub.rates<-list("300"=insub300.rate[1:3],
+insub.rates<-list("300"=insub300.rate,
                   "310"=insub310.rate,
                   "320"=insub320.rate,
                   "330"=insub330.rate,
@@ -272,12 +272,12 @@ insub.rates<-list("300"=insub300.rate[1:3],
 
 save2Rdata(insub.rates)
 
-points(rep(300, 3), insub300.rate[1:3], col=2, pch=16)
-points(rep(310, 3), insub310.rate, col=2, pch=16)
-points(rep(320, 3), insub320.rate, col=2, pch=16)
-points(rep(330, 3), insub330.rate, col=2, pch=16)
-points(rep(340, 3), insub340.rate, col=2, pch=16)
-points(rep(350, 3), insub350.rate, col=2, pch=16)
+points(rep(300, 5), insub300.rate, col=2, pch=16)
+points(rep(310, 5), insub310.rate, col=2, pch=16)
+points(rep(320, 5), insub320.rate, col=2, pch=16)
+points(rep(330, 5), insub330.rate, col=2, pch=16)
+points(rep(340, 5), insub340.rate, col=2, pch=16)
+points(rep(350, 5), insub350.rate, col=2, pch=16)
 
 insubdim2.mean<-sapply(insub.rates, function(rate)mean(rate))
 lines(seq(300, 350, by=10), insubdim2.mean, col=2)
