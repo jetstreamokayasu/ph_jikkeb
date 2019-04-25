@@ -134,10 +134,10 @@ plot_pls<-function(diags){
 plot_2ndpls<-function(lands, vert=F){
   
   oldpar<-par(no.readonly=T)
-  par(cex.lab=2, cex.main=2, cex.axis=2, plt = c(0.2, 0.9, 0.2, 0.9))
+  #par(cex.lab=2, cex.main=2, cex.axis=2, plt = c(0.2, 0.9, 0.2, 0.9))
   
-  if(vert==T){par(mfrow=c(2, (length(lands)%/%2+length(lands)%%2)))}
-  else{par(mfrow=c(((length(lands)%/%4)+1), 4))}
+  if(vert==T){par(mfrow=c(2, (length(lands)%/%2+length(lands)%%2)), cex.lab=2, cex.main=2, cex.axis=2, plt = c(0.2, 0.9, 0.2, 0.9))}
+  else{par(mfrow=c(((length(lands)%/%4)+1), 4), mgp=c(2.5, 1, 0))}
   for (k in 1:length(lands)) {
     plotLandscape(lands[[k]][-2])
   }

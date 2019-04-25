@@ -57,7 +57,7 @@ trs15_300_1_w9_pl<-calcLandscape(trs15_300_1_w1_10_pd[[9]])
 trs15_in300_1_w9_pl<-calcLandscape(trs15_in300_1_w1_10_pd[[9]])
 
 trs15_300_1_w1_10_pls<-lapply(1:10, function(k)calcLandscape(trs15_300_1_w1_10_pd[[k]]))
-plot_2ndpls(trs15_300_1_w1_10_pls, vert = T)
+plot_2ndpls(trs15_300_1_w1_10_pls, vert = F)
 
 trs15_in300_1_w1_10_pls<-lapply(1:10, function(k)calcLandscape(trs15_in300_1_w1_10_pd[[k]]))
 plot_2ndpls(trs15_in300_1_w1_10_pls)
@@ -359,3 +359,53 @@ saveGIF({
     }
   }
 }, interval = 0.1, movie.name = "test.gif")
+
+
+
+#フィルトレーション画像の作成
+xa<-c(-3, -2, -1, 0)
+yb<-c(2, 0, 3, 0.5)
+xy<-cbind(xa, yb)
+xy.dist<-dist(xy) %>% as.matrix()
+xydist<-dist(xy)
+#1.点群
+plot(xa, yb, pch=20, xlim=c(-6, 4), ylim=c(-3, 7), cex=2, bty="n", xaxt="n", yaxt="n", xlab="", ylab="")
+
+#2.フィルトレーション開始
+for(k in 1:4){
+     polygon(xa[k] + cos(theta), yb[k] + sin(theta), col="pink")
+      
+}
+par(new=T)
+plot(xa, yb, pch=20, xlim=c(-6, 4), ylim=c(-3, 7), cex=2, bty="n", xaxt="n", yaxt="n", xlab="", ylab="")
+
+#3.穴の発生
+r<-xydist[order(-xydist)[3]]/2
+for(k in 1:4){
+  polygon(xa[k] + r*cos(theta), yb[k] + r*sin(theta), col="pink")
+  
+}
+
+par(new=T)
+plot(xa, yb, pch=20, xlim=c(-6, 4), ylim=c(-3, 7), cex=2, bty="n", xaxt="n", yaxt="n", xlab="", ylab="")
+
+grp<-which(xy.dist!=0 & xy.dist < r*2, arr.ind=TRUE)
+for(j in 1:nrow(grp)){
+  lines(c(xy[grp[j, 1], 1], xy[grp[j, 2], 1]), c(xy[grp[j, 1], 2], xy[grp[j, 2],2]))}
+lines(c(0, -1), c(0.5, 3))
+
+#4.穴の消滅
+r<-xydist[order(-xydist)[2]]/2
+for(k in 1:4){
+  polygon(xa[k] + r*cos(theta), yb[k] + r*sin(theta), col="pink")
+  
+}
+
+par(new=T)
+plot(xa, yb, pch=20, xlim=c(-6, 4), ylim=c(-3, 7), cex=2, bty="n", xaxt="n", yaxt="n", xlab="", ylab="")
+
+grp<-which(xy.dist!=0 & xy.dist < r*2, arr.ind=TRUE)
+for(j in 1:nrow(grp)){
+  lines(c(xy[grp[j, 1], 1], xy[grp[j, 2], 1]), c(xy[grp[j, 1], 2], xy[grp[j, 2],2]))}
+lines(c(-2, -1), c(0, 3))
+polygon(c(-2, 0, -1, -3), c(0, 0.5, 3, 2), density = 10, angle = -45, col=1)
