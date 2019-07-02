@@ -708,3 +708,4 @@ per_mean<-function(pd){
   
 }
 
+
