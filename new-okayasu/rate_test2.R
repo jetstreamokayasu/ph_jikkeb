@@ -13,6 +13,7 @@ require(foreach)
 require(plotly)
 require(viridis)
 require(pterrace)
+library(seephacm)
 
 
 torus.collect15<- lapply(1:100, function(i){
@@ -286,3 +287,17 @@ insubdim2.sd<-sapply(insub.rates, function(rate)sd(rate))
 lines(seq(300, 350, by=10), insubdim2.mean-insubdim2.sd, lty="dashed", col=2)
 lines(seq(300, 350, by=10), insubdim2.mean+insubdim2.sd, lty="dashed", col=2)
 
+#補間プログラムのパッケージ実験
+torus.collect16<- lapply(1:100, function(i){
+  nsample <- 500
+  #var <- runif(1, var.min, var.max)
+  #noize.torus <- matrix(rnorm(nsample * 3, 0, var), nrow = nsample)
+  torus <- torusUnif(nsample, 1, 2.5)
+  return(list(nsample = nsample, X = torus, diag = 0))
+})
+save2Rdata(torus.collect16)
+
+trs16_vic1<-get_vicinity(trs16_dist, 1, 15)
+trs16_dist<-dist(torus.collect16[[1]][[2]])
+figurePlot3d(torus.collect16[[1]][[2]][-trs16_vic1, ])
+points3d(torus.collect16[[1]][[2]][trs16_vic1, ], col=3)
