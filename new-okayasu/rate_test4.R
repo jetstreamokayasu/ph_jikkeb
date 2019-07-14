@@ -72,8 +72,13 @@ save2Rdata(torus_colset1_aggrs)
 torus350_colset_rate<-aggrSuccessRates(torus_colset1_aggrs, correct = c(2, 1))
 
 #350点トーラス補間
-t350_intime<-system.time(torus350_incolle_set<-lapply(torus_colle_set1, all_interpolate))
+t350_intime<-system.time(torus350_incolle_set<-lapply(torus350_colle_set, function(k)all_interpolate(k, 15)))
 save2Rdata(t350_intime)
+
+torus350_incolle_set_5<-all_interpolate(collect = torus.collect18, nvic = 15)
+
+torus350_colle_set<-append(torus_colle_set1, list(torus.collect18))
+save2Rdata(torus350_colle_set)
 
 torus350_incolle_aggrs<-lapply(1:5, function(k){
   
