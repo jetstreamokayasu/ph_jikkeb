@@ -49,4 +49,8 @@ for (k in 1:100) {
 }  
 
 figurePlot(gautorus15.300sub6[[1]][["noizyX"]][1:300,])
-point3d(gautorus15.300sub6[[1]][["noizyX"]][301:510,], col=3)
+points3d(gautorus15.300sub6[[1]][["noizyX"]][301:510,], col=3)
+rgl.snapshot("./gauss_add.png")
+
+gautorus15.300sub6.aggr<-proposedMethodOnly(X = gautorus15.300sub6, maxdim = 2, maxscale = 3, samples = 10)
+save2Rdata(gautorus15.300sub6.aggr)

@@ -166,7 +166,7 @@ calcDiagCentroid.mk2 <- function(diag = diagram){
     centroid2 <- (diag[diag[,1]==2,3]-diag[diag[,1]==2,2])*2
     cpersistence <- mean(c(centroid1, centroid2))
   ret <- c(cpersistence,noizes.thresh=cpersistence*2)
-  names(ret) <- c("cpersistence","noizes.thresh")
+  names(ret) <- c("cpersistence","noizes_thresh")
   return(ret)
 }
 
