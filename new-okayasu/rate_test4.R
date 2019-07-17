@@ -76,6 +76,7 @@ t350_intime<-system.time(torus350_incolle_set<-lapply(torus350_colle_set, functi
 save2Rdata(t350_intime)
 
 torus350_incolle_set_5<-all_interpolate(collect = torus.collect18, nvic = 15)
+save2Rdata(torus350_incolle_set)
 
 torus350_colle_set<-append(torus_colle_set1, list(torus.collect18))
 save2Rdata(torus350_colle_set)
@@ -120,6 +121,21 @@ save2Rdata(torus340_colset_aggrs)
 
 torus340_colset_rate<-aggrSuccessRates(torus340_colset_aggrs, correct = c(2, 1))
 
+#340点トーラス補間
+t340_intime<-system.time(torus340_incolle_set<-lapply(torus340_colle_set, function(k)all_interpolate(k, 15)))
+save2Rdata(t340_intime)
+
+save2Rdata(torus340_incolle_set)
+
+##1~3セット目を推定
+torus340_incolle13_aggrs<-lapply(1:3, function(k){
+  
+  cat("list", k, "calc\n")
+  time<-system.time(aggr<-proposedMethodOnly(torus340_incolle_set[[k]], 2, 3, 10))
+  return(append(aggr, list(time=time)))
+  
+})
+save2Rdata(torus340_incolle13_aggrs)
 
 #330点トーラス5セット
 torus330_colle_set<-lapply(1:5, function(j){
