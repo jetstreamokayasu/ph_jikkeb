@@ -151,7 +151,7 @@ torus330_colle_set<-lapply(1:5, function(j){
   return(torus_collect)
   
 })
-save2Rdata(torus340_colle_set)
+save2Rdata(torus330_colle_set)
 
 torus340_colset_aggrs<-lapply(1:5, function(k){
   
