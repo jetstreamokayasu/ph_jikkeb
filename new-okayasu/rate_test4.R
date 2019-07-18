@@ -120,3 +120,5 @@ torus340_colset_aggrs<-lapply(1:5, function(k){
 save2Rdata(torus340_colset_aggrs)
 
 
+#アクロボットを作る
+
