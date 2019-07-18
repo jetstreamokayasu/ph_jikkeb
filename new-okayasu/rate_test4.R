@@ -127,7 +127,7 @@ save2Rdata(t340_intime)
 
 save2Rdata(torus340_incolle_set)
 
-##1~3セット目を推定
+##340点トーラス補間後1~3セット目を推定
 torus340_incolle13_aggrs<-lapply(1:3, function(k){
   
   cat("list", k, "calc\n")
@@ -160,8 +160,23 @@ torus340_colset_aggrs<-lapply(1:5, function(k){
   return(append(aggr, list(time=time)))
   
 })
-save2Rdata(torus340_colset_aggrs)
+save2Rdata(torus330_colset_aggrs)
 
+#330点トーラス補間後
+t330_intime<-system.time(torus330_incolle_set<-lapply(torus330_colle_set, function(k)all_interpolate(k, 15)))
+save2Rdata(t330_intime)
+
+save2Rdata(torus330_incolle_set)
+
+##330点トーラス補間後1~3セット目を推定
+torus330_incolle13_aggrs<-lapply(1:3, function(k){
+  
+  cat("list", k, "calc\n")
+  time<-system.time(aggr<-proposedMethodOnly(torus330_incolle_set[[k]], 2, 3, 10))
+  return(append(aggr, list(time=time)))
+  
+})
+save2Rdata(torus330_incolle13_aggrs)
 
 #300点トーラス5セット
 torus300_colle_set<-lapply(1:5, function(j){
@@ -204,21 +219,4 @@ points3d(intrs300_2[[1]][[2]][301:487, ], col=2)
 nsample_intrs300_2<-lapply(intrs300_2, function(intrs){intrs[["nsample"]]})
 
 
-
-interpo3d:::voronoi_border
-function (vics, figure) 
-{
-  vics_pca <- stats::prcomp(figure[vics, ])
-  res <- deldir::deldir(vics_pca$x[, 1], vics_pca$x[, 2])
-  tiles <- deldir::tile.list(res)
-  insecs <- cbind(tiles[[1]][["x"]], tiles[[1]][["y"]])
-  exist <- exist_convexhull_check(vics_pca, insecs)
-  if (length(insecs[which(exist == T), ]) > 0) {
-    vics_oricord <- origin_coordinate(vics_pca, insecs[which(exist == 
-                                                               T), ], figure[vics[1], ])
-  }
-  return(list(oricord = vics_oricord, pca_inter = insecs[which(exist == 
-                                                                 T), ]))
-}
-<bytecode: 0x000001fcd18ca800>
-  <environment: namespace:interpo3d>
+#アクロボットを作る
