@@ -8,3 +8,5 @@ data/
 *.gif
 *.exe
 *.mp4
+
+*.RData
