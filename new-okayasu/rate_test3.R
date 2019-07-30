@@ -366,7 +366,7 @@ saveGIF({
 xa<-c(-3, -2, -1, 0)
 yb<-c(2, 0, 3, 0.5)
 xy<-cbind(xa, yb)
-xy.dist<-dist(xy) %>% as.matrix()
+xy_dist<-dist(xy) %>% as.matrix()
 xydist<-dist(xy)
 #1.点群
 plot(xa, yb, pch=20, xlim=c(-6, 4), ylim=c(-3, 7), cex=2, bty="n", xaxt="n", yaxt="n", xlab="", ylab="")
