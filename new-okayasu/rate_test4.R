@@ -164,6 +164,7 @@ save2Rdata(torus330_colset_aggrs)
 
 #330点トーラス補間後
 t330_intime<-system.time(torus330_incolle_set<-lapply(torus330_colle_set, function(k)all_interpolate(k, 15)))
+
 save2Rdata(t330_intime)
 
 save2Rdata(torus330_incolle_set)
@@ -211,7 +212,7 @@ save2Rdata(t320_intime)
 
 save2Rdata(torus320_incolle_set)
 
-##330点トーラス補間後1~3セット目を推定
+##320点トーラス補間後1~3セット目を推定
 torus320_incolle13_aggrs<-lapply(1:3, function(k){
   
   cat("list", k, "calc\n")
@@ -220,6 +221,48 @@ torus320_incolle13_aggrs<-lapply(1:3, function(k){
   
 })
 save2Rdata(torus320_incolle13_aggrs)
+
+
+#310点トーラス5セット
+torus310_colle_set<-lapply(1:5, function(j){
+  
+  torus_collect<- lapply(1:100, function(i){
+    nsample <- 310
+    #var <- runif(1, var.min, var.max)
+    #noize.torus <- matrix(rnorm(nsample * 3, 0, var), nrow = nsample)
+    torus <- torusUnif(nsample, 1, 2.5)
+    return(list(nsample = nsample, noizyX = torus, diag = 0))
+  })
+  
+  return(torus_collect)
+  
+})
+save2Rdata(torus310_colle_set)
+
+torus320_colset_aggrs<-lapply(1:5, function(k){
+  
+  cat("list", k, "calc\n")
+  time<-system.time(aggr<-proposedMethodOnly(torus320_colle_set[[k]], 2, 3, 10))
+  return(append(aggr, list(time=time)))
+  
+})
+save2Rdata(torus310_colset_aggrs)
+
+#310点トーラス補間後
+t310_intime<-system.time(torus320_incolle_set<-lapply(torus310_colle_set, function(k)all_interpolate(k, 15)))
+save2Rdata(t310_intime)
+
+save2Rdata(torus310_incolle_set)
+
+##320点トーラス補間後1~3セット目を推定
+torus310_incolle13_aggrs<-lapply(1:3, function(k){
+  
+  cat("list", k, "calc\n")
+  time<-system.time(aggr<-proposedMethodOnly(torus310_incolle_set[[k]], 2, 3, 10))
+  return(append(aggr, list(time=time)))
+  
+})
+save2Rdata(torus310_incolle13_aggrs)
 
 
 
