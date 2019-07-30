@@ -59,7 +59,7 @@ acro2_pca<-prcomp(acro2_mat)
 plot3d(acro2_pca[["x"]][,1:3])
 
 acro2_dist<-dist(acro2_mat)
-acro2_diag<-ripsDiag(acro2_mat, maxdimension = 2, maxscale = 12)
+acro2_diag<-ripsDiag(acro2_mat, maxdimension = 2, maxscale = 10)
 plot(acro2_diag[[1]])
 
 # lle
