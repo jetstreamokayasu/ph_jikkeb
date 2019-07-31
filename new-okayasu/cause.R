@@ -78,3 +78,21 @@ plot_lands(trs_in350subs2_26_subs_pls, dim = 1)
 
 
 #補間点数の差による計算時間差を調べる
+##300点トーラスで試す
+t300_a1_intime<-system.time(torus300_incolle_1_a1<-variable_interpo(torus300_colle_set[[1]], 15, 1))
+
+t300_a2_intime<-system.time(torus300_incolle_1_a2<-variable_interpo(torus300_colle_set[[1]], 15, 2))
+
+t300_a3_intime<-system.time(torus300_incolle_1_a3<-variable_interpo(torus300_colle_set[[1]], 15, 3))
+
+t300_a4_intime<-system.time(torus300_incolle_1_a4<-variable_interpo(torus300_colle_set[[1]], 15, 4))
+
+t300_a5_intime<-system.time(torus300_incolle_1_a5<-variable_interpo(torus300_colle_set[[1]], 15, 5))
+
+t300_a6_intime<-system.time(torus300_incolle_1_a6<-variable_interpo(torus300_colle_set[[1]], 15, 6))
+
+t300_a7_intime<-system.time(torus300_incolle_1_a7<-variable_interpo(torus300_colle_set[[1]], 15, 7))
+
+torus300_1_test<-all_interpolate(torus300_colle_set[[1]], nvic = 15)
+
+torus300_incolle_1_a6_2<-variable_interpo(torus300_colle_set[[1]], 15, 6)
