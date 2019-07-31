@@ -249,7 +249,7 @@ torus320_colset_aggrs<-lapply(1:5, function(k){
 save2Rdata(torus310_colset_aggrs)
 
 #310点トーラス補間後
-t310_intime<-system.time(torus320_incolle_set<-lapply(torus310_colle_set, function(k)all_interpolate(k, 15)))
+t310_intime<-system.time(torus310_incolle_set<-lapply(torus310_colle_set, function(k)all_interpolate(k, 15)))
 save2Rdata(t310_intime)
 
 save2Rdata(torus310_incolle_set)

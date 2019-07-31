@@ -53,7 +53,7 @@ arrow.dist <- dist(arrow.mat)
 acro2<-lapply(paste0("./data/acro_img2/",1:400, ".png"), readPNG)
 acro2_grays<-lapply(acro2, convert2Gray)
 showImage(acro2_grays[[10]])
-showImageList(acro2_grays[seq(20, 100, 10)+0:8 ])
+showImageList(acro2_grays[seq(20, 100, 10)+0:8])
 acro2_mat<-matrix(unlist(acro2_grays), 400, 50*50, byrow = T)
 
 acro2_pca<-prcomp(acro2_mat)
