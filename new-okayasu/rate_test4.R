@@ -239,7 +239,7 @@ torus310_colle_set<-lapply(1:5, function(j){
 })
 save2Rdata(torus310_colle_set)
 
-torus320_colset_aggrs<-lapply(1:5, function(k){
+torus310_colset_aggrs<-lapply(1:5, function(k){
   
   cat("list", k, "calc\n")
   time<-system.time(aggr<-proposedMethodOnly(torus320_colle_set[[k]], 2, 3, 10))
@@ -254,7 +254,7 @@ save2Rdata(t310_intime)
 
 save2Rdata(torus310_incolle_set)
 
-##320点トーラス補間後1~3セット目を推定
+##310点トーラス補間後1~3セット目を推定
 torus310_incolle13_aggrs<-lapply(1:3, function(k){
   
   cat("list", k, "calc\n")

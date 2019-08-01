@@ -99,4 +99,6 @@ torus300_1_test<-all_interpolate(torus300_colle_set[[1]], nvic = 15)
 
 torus300_incolle_1_a6_2<-variable_interpo(torus300_colle_set[[1]], 15, 6)
 
-intt300_1_a1_time<-system.time(trs300_incolle1_a1_aggr<-proposedMethodOnly(torus300_incolle_1_a1, 2, 3, 10))
+intt300_1_a3_time<-system.time(trs300_incolle1_a3_aggr<-proposedMethodOnly(torus300_incolle_1_a3, 2, 3, 10))
+
+intt300_1_a6_time<-system.time(trs300_incolle1_a6_aggr<-proposedMethodOnly(torus300_incolle_1_a6, 2, 3, 10))
