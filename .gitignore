@@ -10,3 +10,6 @@ data/
 *.mp4
 
 *.RData
+
+*.Rmd
+*.html
