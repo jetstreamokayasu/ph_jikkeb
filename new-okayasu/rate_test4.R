@@ -264,12 +264,11 @@ torus310_incolle13_aggrs<-lapply(1:3, function(k){
   
   cat("list", k, "calc\n")
   time<-system.time(aggr<-proposedMethodOnly(torus310_incolle_set[[k]], 2, 3, 10))
-  save(list = aggr, file = paste0("./data/in310_aggr_", k, ".RData"))
+  save(aggr, file = paste0("./data/in310_aggr_", k, ".RData"))
   return(append(aggr, list(time=time)))
   
 })
 save2Rdata(torus310_incolle13_aggrs)
-
 
 
 #300点トーラス5セット
@@ -311,6 +310,23 @@ figurePlot(torus300_colle_set[[2]][[1]][["noizyX"]])
 points3d(intrs300_2[[1]][[2]][301:487, ], col=2)
 
 nsample_intrs300_2<-lapply(intrs300_2, function(intrs){intrs[["nsample"]]})
+
+#300点トーラス全体補間
+t300_intime<-system.time(torus300_incolle_set<-lapply(torus300_colle_set, function(k)all_interpolate(k, 15)))
+save2Rdata(t300_intime)
+
+save2Rdata(torus300_incolle_set)
+
+##310点トーラス補間後1~3セット目を推定
+torus300_incolle13_aggrs<-lapply(1:3, function(k){
+  
+  cat("list", k, "calc\n")
+  time<-system.time(aggr<-proposedMethodOnly(torus300_incolle_set[[k]], 2, 3, 10))
+  save(aggr, file = paste0("./data/in300_aggr_", k, ".RData"))
+  return(append(aggr, list(time=time)))
+  
+})
+save2Rdata(torus300_incolle13_aggrs)
 
 
 #推定成功率まとめ

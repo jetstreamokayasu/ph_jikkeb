@@ -94,7 +94,7 @@ t300_a4_intime<-system.time(torus300_incolle_1_a4<-variable_interpo(torus300_col
 t300_a5_intime<-system.time(torus300_incolle_1_a5<-variable_interpo(torus300_colle_set[[1]], 15, 5))
 
 #6点選んで補う
-#６点から開始
+#6点から開始
 t300_a6_intime<-system.time(torus300_incolle_1_a6<-variable_interpo(torus300_colle_set[[1]], 15, 6))
 
 t300_a7_intime<-system.time(torus300_incolle_1_a7<-variable_interpo(torus300_colle_set[[1]], 15, 7))
@@ -111,6 +111,9 @@ intt300_1_a3_time<-system.time(trs300_incolle1_a3_aggr<-proposedMethodOnly(torus
 
 intt300_1_a6_time<-system.time(trs300_incolle1_a6_aggr<-proposedMethodOnly(torus300_incolle_1_a6, 2, 3, 10))
 
+
+
+## plotly試し
 
 torus350<-torus350_incolle_set[[2]][[26]][["noizyX"]] %>%
   dplyr::as_data_frame() %>% 
