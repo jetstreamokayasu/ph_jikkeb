@@ -16,6 +16,7 @@ library(interpo3d)
 crrct1_10<-which(torus_colset1_aggrs[[1]][[1]] >= 1.5 & torus_colset1_aggrs[[1]][[1]] < 2.5)
 
 inwrng1_10<-which(torus350_incolle_aggrs[[2]][[1]] < 1.5 | torus_colset1_aggrs[[1]][[1]] >= 2.5)
+#上のwhichの中身間違えている可能性大
 
 c_inw_1_10<-intersect(crrct1_10, inwrng1_10)[1:10]
 
@@ -111,7 +112,9 @@ intt300_1_a3_time<-system.time(trs300_incolle1_a3_aggr<-proposedMethodOnly(torus
 
 intt300_1_a6_time<-system.time(trs300_incolle1_a6_aggr<-proposedMethodOnly(torus300_incolle_1_a6, 2, 3, 10))
 
+intt300_1_a1_time<-system.time(trs300_incolle1_a1_aggr<-proposedMethodOnly(torus300_incolle_1_a1, 2, 3, 10))
 
+intt300_1_a8_time<-system.time(trs300_incolle1_a8_aggr<-proposedMethodOnly(torus300_incolle_1_a8, 2, 3, 10))
 
 ## plotly試し
 

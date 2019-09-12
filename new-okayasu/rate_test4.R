@@ -75,6 +75,7 @@ torus350_colset_rate<-aggrSuccessRates(torus_colset1_aggrs, correct = c(2, 1))
 t350_intime<-system.time(torus350_incolle_set<-lapply(torus350_colle_set, function(k)all_interpolate(k, 15)))
 save2Rdata(t350_intime)
 
+#恐らくここから逆写像が最初に選んだ１点を通る平面上に写される
 torus350_incolle_set_5<-all_interpolate(collect = torus.collect18, nvic = 15)
 save2Rdata(torus350_incolle_set)
 
