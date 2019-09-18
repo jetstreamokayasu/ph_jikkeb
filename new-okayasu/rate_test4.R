@@ -143,6 +143,16 @@ torus340_incolle13_aggrs<-lapply(1:3, function(k){
 })
 save2Rdata(torus340_incolle13_aggrs)
 
+##340点トーラス補間後4,5セット目を推定
+torus340_incolle45_aggrs<-lapply(4:5, function(k){
+  
+  cat("list", k, "calc\n")
+  time<-system.time(aggr<-proposedMethodOnly(torus340_incolle_set[[k]], 2, 3, 10))
+  return(append(aggr, list(time=time)))
+  
+})
+save2Rdata(torus340_incolle45_aggrs)
+
 #330点トーラス5セット
 torus330_colle_set<-lapply(1:5, function(j){
   

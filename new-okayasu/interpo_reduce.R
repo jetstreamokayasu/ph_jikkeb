@@ -28,6 +28,8 @@ trs300_incolle1_redc<-lapply(torus300_incolle_set[[1]], function(X){
   
 })
 
+trs300_1_redc_time<-system.time(trs300_incolle1_redc_aggr<-proposedMethodOnly(trs300_incolle1_redc, 2, 3, 10))
+
 #ボロノイ領域の頂点の一部だけに補間した場合のデータ店の増加率を調べる
 ## 各データセットのデータ点数を抽出
 trs300_incolle1_a1_points<-unlist(lapply(torus300_incolle_1_a1, function(X)X[[1]]))
