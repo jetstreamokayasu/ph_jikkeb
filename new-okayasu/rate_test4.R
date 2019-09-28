@@ -195,6 +195,17 @@ torus330_incolle13_aggrs<-lapply(1:3, function(k){
 })
 save2Rdata(torus330_incolle13_aggrs)
 
+##330点トーラス補間後4,5セット目を推定
+torus330_incolle45_aggrs<-lapply(4:5, function(k){
+  
+  cat("list", k, "calc\n")
+  time<-system.time(aggr<-proposedMethodOnly(torus330_incolle_set[[k]], 2, 3, 10))
+  save(aggr, file = paste0("./data/in330_aggr_", k, ".RData"))
+  return(append(aggr, list(time=time)))
+  
+})
+save2Rdata(torus330_incolle45_aggrs)
+
 
 
 #320点トーラス5セット
@@ -238,6 +249,16 @@ torus320_incolle13_aggrs<-lapply(1:3, function(k){
 })
 save2Rdata(torus320_incolle13_aggrs)
 
+##320点トーラス補間後4,5セット目を推定
+torus320_incolle45_aggrs<-lapply(4:5, function(k){
+  
+  cat("list", k, "calc\n")
+  time<-system.time(aggr<-proposedMethodOnly(torus320_incolle_set[[k]], 2, 3, 10))
+  save(aggr, file = paste0("./data/in320_aggr_", k, ".RData"))
+  return(append(aggr, list(time=time)))
+  
+})
+save2Rdata(torus320_incolle45_aggrs)
 
 #310点トーラス5セット
 torus310_colle_set<-lapply(1:5, function(j){
@@ -280,6 +301,17 @@ torus310_incolle13_aggrs<-lapply(1:3, function(k){
   
 })
 save2Rdata(torus310_incolle13_aggrs)
+
+##310点トーラス補間後4,5セット目を推定
+torus310_incolle45_aggrs<-lapply(4:5, function(k){
+  
+  cat("list", k, "calc\n")
+  time<-system.time(aggr<-proposedMethodOnly(torus310_incolle_set[[k]], 2, 3, 10))
+  save(aggr, file = paste0("./data/in310_aggr_", k, ".RData"))
+  return(append(aggr, list(time=time)))
+  
+})
+save2Rdata(torus310_incolle45_aggrs)
 
 
 #300点トーラス5セット
@@ -328,7 +360,14 @@ save2Rdata(t300_intime)
 
 save2Rdata(torus300_incolle_set)
 
-##310点トーラス補間後1~3セット目を推定
+torus300_incolle_set_test<-lapply(torus300_colle_set, function(k){
+  
+  time<-system.time(incole<-all_interpolate(k, 15))
+  return(list(incole, time))
+  
+  })
+
+##300点トーラス補間後1~3セット目を推定
 torus300_incolle13_aggrs<-lapply(1:3, function(k){
   
   cat("list", k, "calc\n")
@@ -339,6 +378,16 @@ torus300_incolle13_aggrs<-lapply(1:3, function(k){
 })
 save2Rdata(torus300_incolle13_aggrs)
 
+#300点トーラス補間後4,5セット目を推定
+torus300_incolle45_aggrs<-lapply(4:5, function(k){
+  
+  cat("list", k, "calc\n")
+  time<-system.time(aggr<-proposedMethodOnly(torus300_incolle_set[[k]], 2, 3, 10))
+  save(aggr, file = paste0("./data/in300_aggr_", k, ".RData"))
+  return(append(aggr, list(time=time)))
+  
+})
+save2Rdata(torus300_incolle45_aggrs)
 
 #推定成功率まとめ
 #2次ベッチ数
@@ -347,34 +396,47 @@ torus350_incolle_rate<-aggr_success_rates(torus350_incolle_aggrs, c(2,1))
 torus340_incolle13_rate<-aggr_success_rates(torus340_incolle13_aggrs, c(2,1))
 torus330_incolle13_rate<-aggr_success_rates(torus330_incolle13_aggrs, c(2,1))
 torus320_incolle13_rate<-aggr_success_rates(torus320_incolle13_aggrs, c(2,1))
-torus300_1_1_rate<-aggr_success_rates(list(intrs300_1_aggr), c(2,1))
+torus310_incolle13_rate<-aggr_success_rates(torus320_incolle13_aggrs, c(2,1))
+torus300_incolle13_rate<-aggr_success_rates(torus320_incolle13_aggrs, c(2,1))
+
+torus340_incolle45_rate<-aggr_success_rates(torus340_incolle45_aggrs, c(2,1))
+torus330_incolle45_rate<-aggr_success_rates(torus330_incolle45_aggrs, c(2,1))
+torus320_incolle45_rate<-aggr_success_rates(torus320_incolle45_aggrs, c(2,1))
+torus310_incolle45_rate<-aggr_success_rates(torus320_incolle45_aggrs, c(2,1))
+torus300_incolle45_rate<-aggr_success_rates(torus320_incolle45_aggrs, c(2,1))
+
 
 in350_rates<-do.call(rbind, torus350_incolle_rate)
-in340_rates<-do.call(rbind, torus340_incolle13_rate)
-in330_rates<-do.call(rbind, torus330_incolle13_rate)
-in320_rates<-do.call(rbind, torus320_incolle13_rate)
+in340_rates<-do.call(rbind, append(torus340_incolle13_rate, torus340_incolle45_rate))
+in330_rates<-do.call(rbind, append(torus330_incolle13_rate, torus330_incolle45_rate))
+in320_rates<-do.call(rbind, append(torus320_incolle13_rate, torus320_incolle45_rate))
+in310_rates<-do.call(rbind, append(torus310_incolle13_rate, torus310_incolle45_rate))
+in300_rates<-do.call(rbind, append(torus300_incolle13_rate, torus300_incolle45_rate))
+
 
 in300_1_rate<-do.call(rbind, torus300_1_1_rate)
 
-insub_rates<-list("300"=in300_1_rates,
+insub_rates<-list("300"=in300_rates,
+                  "310"=in310_rates,
                   "320"=in320_rates,
                   "330"=in330_rates,
                   "340"=in340_rates,
                   "350"=in350_rates)
 
-points(rep(300, 1), in300_1_rates[,2], col=2, pch=16)
-points(rep(310, 5), insub310.rate, col=2, pch=16)
-points(rep(320, 3), in320_rates[,2], col=2, pch=16)
-points(rep(330, 3), in330_rates[,2], col=2, pch=16)
-points(rep(340, 3), in340_rates[,2], col=2, pch=16)
+#2次ベッチ数新手法補間後
+points(rep(300, 5), in300_rates[,2], col=2, pch=16)
+points(rep(310, 5), in310_rates[,2], col=2, pch=16)
+points(rep(320, 5), in320_rates[,2], col=2, pch=16)
+points(rep(330, 5), in330_rates[,2], col=2, pch=16)
+points(rep(340, 5), in340_rates[,2], col=2, pch=16)
 points(rep(350, 5), in350_rates[,2], col=2, pch=16)
 
 in_dim2_mean<-sapply(insub_rates, function(rate)mean(unlist(rate[,2])))
-lines(c(300, seq(320, 350, by=10)), in_dim2_mean, col=2)
+lines(seq(300, 350, by=10), in_dim2_mean, col=2)
 
 in_dim2_sd<-sapply(insub_rates, function(rate)sd(unlist(rate[,2])))
-lines(c(300, seq(320, 350, by=10)), in_dim2_mean-in_dim2_sd, lty="dashed", col=2)
-lines(c(300, seq(320, 350, by=10)), in_dim2_mean+in_dim2_sd, lty="dashed", col=2)
+lines(seq(300, 350, by=10), in_dim2_mean-in_dim2_sd, lty="dashed", col=2)
+lines(seq(300, 350, by=10), in_dim2_mean+in_dim2_sd, lty="dashed", col=2)
 
 
 #1次ベッチ数
@@ -398,10 +460,11 @@ sub_rates<-list("300"=suc300_rates,
                 "340"=suc340_rates,
                 "350"=suc350_rates)
 
-
+#プロット領域準備
 plot(sucrate.dim2.tidy_2, pch=16, cex.axis=1.6, xlab="Data Density", ylab="Success Rates", cex.lab=1.6, ylim=c(0.2, 1.0), xaxt="n", type="n")
 axis(side=1, at=seq(300, 350, by=10), labels=c(paste0(seq(30, 35), "/(pi^2)")), cex.axis=1.1)
 
+#1次ベッチ数の成功率
 points(rep(300, 5), suc300_rates[,1], pch=16)
 points(rep(310, 5), suc310_rates[,1], pch=16)
 points(rep(320, 5), suc320_rates[,1], pch=16)
@@ -415,6 +478,21 @@ lines(seq(300, 350, by=10), dim1_mean)
 dim1_sd<-sapply(sub_rates, function(rate)sd(unlist(rate[,1])))
 lines(seq(300, 350, by=10), dim1_mean-dim1_sd, lty="dashed")
 lines(seq(300, 350, by=10), dim1_mean+dim1_sd, lty="dashed")
+
+#2次ベッチ数の成功率
+points(rep(300, 5), suc300_rates[,2], pch=16)
+points(rep(310, 5), suc310_rates[,2], pch=16)
+points(rep(320, 5), suc320_rates[,2], pch=16)
+points(rep(330, 5), suc330_rates[,2], pch=16)
+points(rep(340, 5), suc340_rates[,2], pch=16)
+points(rep(350, 5), suc350_rates[,2], pch=16)
+
+dim2_mean<-sapply(sub_rates, function(rate)mean(unlist(rate[,2])))
+lines(seq(300, 350, by=10), dim1_mean)
+
+dim2_sd<-sapply(sub_rates, function(rate)sd(unlist(rate[,2])))
+lines(seq(300, 350, by=10), dim2_mean-dim2_sd, lty="dashed")
+lines(seq(300, 350, by=10), dim2_mean+dim2_sd, lty="dashed")
 
 #補間後
 points(rep(300, 1), in300_1_rates[,1], col=2, pch=16)
