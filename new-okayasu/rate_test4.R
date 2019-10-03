@@ -35,6 +35,8 @@ toc()
 
 time<-system.time(torus18_test<-proposedMethodOnly(list(torus.collect18[[1]]), maxdim = 2, maxscale = 3, samples = 10))
 
+
+
 #350点トーラス4セット
 torus_colle_set1<-lapply(1:4, function(j){
   
@@ -58,8 +60,6 @@ times_list<-lapply(1:2, function(k){
   
 })
 
-
-
 torus_colset1_aggrs<-lapply(1:4, function(k){
   
   cat("list", k, "calc\n")
@@ -71,9 +71,13 @@ save2Rdata(torus_colset1_aggrs)
 
 torus350_colset_rate<-aggrSuccessRates(torus_colset1_aggrs, correct = c(2, 1))
 
+
+
 #350点トーラス補間
 t350_intime<-system.time(torus350_incolle_set<-lapply(torus350_colle_set, function(k)all_interpolate(k, 15)))
 save2Rdata(t350_intime)
+
+
 
 #恐らくここから逆写像が最初に選んだ１点を通る平面上に写される
 torus350_incolle_set_5<-all_interpolate(collect = torus.collect18, nvic = 15)
@@ -99,6 +103,8 @@ save2Rdata(torus350_incolle_aggrs)
 torus350_incolle_set3<-all_interpolate(torus_colle_set1[[3]])
 torus350_incolle_set4<-all_interpolate(torus_colle_set1[[4]])
 torus350_incolle_set4_1<-voronoiInterpo(torus_colle_set1[[4]][[1]][[2]], 15)
+
+
 
 #340点トーラス5セット
 torus340_colle_set<-lapply(1:5, function(j){
@@ -152,6 +158,8 @@ torus340_incolle45_aggrs<-lapply(4:5, function(k){
   
 })
 save2Rdata(torus340_incolle45_aggrs)
+
+
 
 #330点トーラス5セット
 torus330_colle_set<-lapply(1:5, function(j){
@@ -208,6 +216,7 @@ save2Rdata(torus330_incolle45_aggrs)
 
 
 
+
 #320点トーラス5セット
 torus320_colle_set<-lapply(1:5, function(j){
   
@@ -224,6 +233,7 @@ torus320_colle_set<-lapply(1:5, function(j){
 })
 save2Rdata(torus320_colle_set)
 
+{
 torus320_colset_aggrs<-lapply(1:5, function(k){
   
   cat("list", k, "calc\n")
@@ -232,6 +242,7 @@ torus320_colset_aggrs<-lapply(1:5, function(k){
   
 })
 save2Rdata(torus320_colset_aggrs)
+}
 
 #320点トーラス補間後
 t320_intime<-system.time(torus320_incolle_set<-lapply(torus320_colle_set, function(k)all_interpolate(k, 15)))
@@ -260,6 +271,10 @@ torus320_incolle45_aggrs<-lapply(4:5, function(k){
 })
 save2Rdata(torus320_incolle45_aggrs)
 
+
+
+
+
 #310点トーラス5セット
 torus310_colle_set<-lapply(1:5, function(j){
   
@@ -276,14 +291,16 @@ torus310_colle_set<-lapply(1:5, function(j){
 })
 save2Rdata(torus310_colle_set)
 
-torus310_colset_aggrs<-lapply(1:5, function(k){
+{
+torus310_colle_aggrs<-lapply(1:5, function(k){
   
   cat("list", k, "calc\n")
-  time<-system.time(aggr<-proposedMethodOnly(torus320_colle_set[[k]], 2, 3, 10))
+  time<-system.time(aggr<-proposedMethodOnly(torus310_colle_set[[k]], 2, 3, 10))
   return(append(aggr, list(time=time)))
   
 })
-save2Rdata(torus310_colset_aggrs)
+save2Rdata(torus310_colle_aggrs)
+}
 
 #310点トーラス補間後
 t310_intime<-system.time(torus310_incolle_set<-lapply(torus310_colle_set, function(k)all_interpolate(k, 15)))
@@ -314,6 +331,8 @@ torus310_incolle45_aggrs<-lapply(4:5, function(k){
 save2Rdata(torus310_incolle45_aggrs)
 
 
+
+
 #300点トーラス5セット
 torus300_colle_set<-lapply(1:5, function(j){
   
@@ -339,8 +358,22 @@ torus300_colset_aggrs<-lapply(1:5, function(k){
 })
 save2Rdata(torus300_colset_aggrs)
 
+#300点トーラス100セット1つ目を試しに推定
 trs300_1_time<-system.time(trs300_1_aggr<-proposedMethodOnly(torus300_colle_set[[1]], 2, 3, 10))
 save2Rdata(trs300_1_aggr)
+
+#300点トーラス100セットの1-5個目を推定
+{
+torus300_colle_aggrs<-lapply(1:5, function(k){
+  
+  cat("list", k, "calc\n")
+  time<-system.time(aggr<-proposedMethodOnly(torus300_colle_set[[k]], 2, 3, 10))
+  return(append(aggr, list(time=time)))
+  
+})
+save2Rdata(torus300_colle_aggrs)
+}
+
 
 #300点トーラス補間後
 torus300_1_1<-all_interpolate(torus300_colle_set[[1]])

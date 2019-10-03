@@ -82,7 +82,8 @@ plot_lands(trs_in350subs2_26_subs_pls, dim = 1)
 
 
 #補間点数の差による計算時間差を調べる
-#旧手法で
+#1点、3点、6点は終了
+#新手法で。補間点は遠い順
 ##300点トーラスで試す
 t300_a1_intime<-system.time(torus300_incolle_1_a1<-variable_interpo(torus300_colle_set[[1]], 15, 1))
 
@@ -94,8 +95,7 @@ t300_a4_intime<-system.time(torus300_incolle_1_a4<-variable_interpo(torus300_col
 
 t300_a5_intime<-system.time(torus300_incolle_1_a5<-variable_interpo(torus300_colle_set[[1]], 15, 5))
 
-#6点選んで補う
-#6点から開始
+#1点、3点、6点は推定終了
 t300_a6_intime<-system.time(torus300_incolle_1_a6<-variable_interpo(torus300_colle_set[[1]], 15, 6))
 
 t300_a7_intime<-system.time(torus300_incolle_1_a7<-variable_interpo(torus300_colle_set[[1]], 15, 7))
@@ -114,7 +114,267 @@ intt300_1_a6_time<-system.time(trs300_incolle1_a6_aggr<-proposedMethodOnly(torus
 
 intt300_1_a1_time<-system.time(trs300_incolle1_a1_aggr<-proposedMethodOnly(torus300_incolle_1_a1, 2, 3, 10))
 
+#2,4,8点を推定
 intt300_1_a8_time<-system.time(trs300_incolle1_a8_aggr<-proposedMethodOnly(torus300_incolle_1_a8, 2, 3, 10))
+
+intt300_1_a2_time<-system.time(trs300_incolle1_a2_aggr<-proposedMethodOnly(torus300_incolle_1_a2, 2, 3, 10))
+
+intt300_1_a4_time<-system.time(trs300_incolle1_a4_aggr<-proposedMethodOnly(torus300_incolle_1_a4, 2, 3, 10))
+
+#1,2,4,6点を2セット推定
+##1点追加
+torus300_incolle_a1<-lapply(torus300_colle_set, function(k){
+  
+  time<-system.time(incole<-variable_interpo(k, 15, 1))
+  return(list(incole, time=time))
+  
+})
+
+
+trs300_incole13_a1_aggrs<-lapply(2:3, function(k){
+  
+  cat("list", k, "calc\n")
+  time<-system.time(aggr<-proposedMethodOnly(torus300_incolle_a1[[k]][[1]], 2, 3, 10))
+  return(append(aggr, list(time=time)))
+  
+})
+save2Rdata(trs300_incole13_a1_aggrs)
+
+##2点追加
+torus300_incolle_a2<-lapply(torus300_colle_set, function(k){
+  
+  time<-system.time(incole<-variable_interpo(k, 15, 2))
+  return(list(incole, time=time))
+  
+})
+
+trs300_incole13_a2_aggrs<-lapply(2:3, function(k){
+  
+  cat("list", k, "calc\n")
+  time<-system.time(aggr<-proposedMethodOnly(torus300_incolle_a2[[k]][[1]], 2, 3, 10))
+  return(append(aggr, list(time=time)))
+  
+})
+save2Rdata(trs300_incole13_a2_aggrs)
+
+##3点追加
+torus300_incolle_a3<-lapply(torus300_colle_set, function(k){
+  
+  time<-system.time(incole<-variable_interpo(k, 15, 3))
+  return(list(incole, time=time))
+  
+})
+
+{
+trs300_incole23_a3_aggrs<-lapply(2:3, function(k){
+  
+  cat("list", k, "calc\n")
+  time<-system.time(aggr<-proposedMethodOnly(torus300_incolle_a3[[k]][[1]], 2, 3, 10))
+  return(append(aggr, list(time=time)))
+  
+})
+save2Rdata(trs300_incole23_a3_aggrs)
+}
+
+
+##4点追加
+torus300_incolle_a4<-lapply(torus300_colle_set, function(k){
+  
+  time<-system.time(incole<-variable_interpo(k, 15, 4))
+  return(list(incole, time=time))
+  
+})
+
+{
+  trs300_incole23_a4_aggrs<-lapply(2:3, function(k){
+    
+    cat("list", k, "calc\n")
+    time<-system.time(aggr<-proposedMethodOnly(torus300_incolle_a4[[k]][[1]], 2, 3, 10))
+    return(append(aggr, list(time=time)))
+    
+  })
+  save2Rdata(trs300_incole23_a4_aggrs)
+}
+
+##6点追加
+torus300_incolle_a6<-lapply(torus300_colle_set, function(k){
+  
+  time<-system.time(incole<-variable_interpo(k, 15, 6))
+  return(list(incole, time=time))
+  
+})
+
+{
+  trs300_incole23_a6_aggrs<-lapply(2:3, function(k){
+    
+    cat("list", k, "calc\n")
+    time<-system.time(aggr<-proposedMethodOnly(torus300_incolle_a6[[k]][[1]], 2, 3, 10))
+    return(append(aggr, list(time=time)))
+    
+  })
+  save2Rdata(trs300_incole23_a6_aggrs)
+}
+
+
+#補間前後のランドスケープ比較
+##最初の1点を通る補間手法
+#300点トーラスで比較
+
+#補間前に不正解なのと補間後に正解したデータセット比較
+in_crrct<-which(torus300_incolle13_aggrs[[1]][[2]] >= 0.5 & torus300_incolle13_aggrs[[1]][[2]] < 1.5)
+
+wrng<-which(torus15.300subs.aggrs[[1]][[2]] < 0.5 | torus15.300subs.aggrs[[1]][[2]] >= 1.5)
+
+in_crrct_wrng<-intersect(in_crrct, wrng)
+
+##補間前不正解PD
+trs300_1_w1_10_pd<-lapply(in_crrct_wrng[1:10], function(k)ripsDiag(torus15.300subs[[1]][[k]][["noizyX"]], 2, 3, printProgress = T))
+plotPDs(trs300_1_w1_10_pd)
+
+##補間後正解PD
+trs300_in1_w1_10_pd<-lapply(in_crrct_wrng[1:10], function(k)ripsDiag(torus300_incolle_set[[1]][[k]][["noizyX"]], 2, 3, printProgress = T))
+plotPDs(trs300_in1_w1_10_pd)
+
+##補間前不正解PL
+trs300_1_w1_10_pls<-lapply(1:10, function(k)calc_landscape(trs300_1_w1_10_pd[[k]], 3))
+par(lwd=2)
+plot_2ndpls(trs300_1_w1_10_pls, vert = F)
+
+##補間後正解PL
+par(cex.lab=2.5, cex.main=2.5, cex.axis=2.5, plt = c(0.2, 0.9, 0.2, 0.9), mfrow=c(2, 5), mgp=c(3.5,1,0), lwd=2)
+trs300_in1_w1_10_pls<-lapply(1:10, function(k)calc_landscape(trs300_in1_w1_10_pd[[k]], 3))
+plot_2ndpls(trs300_in1_w1_10_pls, vert = F)
+
+#補間点の誤差を調べる
+##最初の1点を通る補間手法
+oldpar <- par(no.readonly=T)
+
+in_trs300_1_w1_10errs<-lapply(in_crrct_wrng, function(i)torus_disterror(torus300_incolle_set[[1]][[i]][["noizyX"]], maxr = 2.5, minr = 1, nps = 300))
+par(mgp=c(2.5,1,0))
+boxplot(in_trs300_1_w1_10errs[1:10], xlab="Data Set", ylab="Error", cex.lab=1.6, cex.axis=1.6)
+
+
+
+
+#時間と精度の関係グラフを作成
+##1,2,3,4,6点追加を比較
+##成功率をまとめる
+a1_rate<-aggr_success_rates(append(list(trs300_incolle1_a1_aggr), trs300_incole13_a1_aggrs), c(2, 1)) %>% 
+         do.call(rbind, .)
+
+a2_rate<-aggr_success_rates(append(list(trs300_incolle1_a2_aggr), trs300_incole13_a2_aggrs), c(2, 1)) %>% 
+  do.call(rbind, .)
+
+a3_rate<-aggr_success_rates(append(list(trs300_incolle1_a3_aggr), trs300_incole23_a3_aggrs), c(2, 1)) %>% 
+  do.call(rbind, .)
+
+a4_rate<-aggr_success_rates(trs300_incole23_a4_aggrs, c(2, 1)) %>% 
+  do.call(rbind, .)
+
+a6_rate<-aggr_success_rates(append(list(trs300_incolle1_a6_aggr), trs300_incole23_a6_aggrs), c(2, 1)) %>% 
+  do.call(rbind, .)
+
+all_rate<-aggr_success_rates(torus300_incolle13_aggrs, c(2, 1)) %>% 
+  do.call(rbind, .)
+
+
+##計算時間をまとめる
+##補間時間＋推定時間
+a1_time<-c((t300_a1_intime+intt300_1_a1_time)[3], sapply(torus300_incolle_a1, function(t)t[["time"]][3])[2:3]+sapply(trs300_incole13_a1_aggrs, function(t)t[["time"]][3]))
+
+a2_time<-c((t300_a2_intime+intt300_1_a2_time)[3], sapply(torus300_incolle_a2, function(t)t[["time"]][3])[2:3]+sapply(trs300_incole13_a2_aggrs, function(t)t[["time"]][3]))
+
+a3_time<-c((t300_a3_intime+intt300_1_a3_time)[3], sapply(torus300_incolle_a3, function(t)t[["time"]][3])[2:3]+sapply(trs300_incole23_a3_aggrs, function(t)t[["time"]][3]))
+
+a4_time<-sapply(torus300_incolle_a4, function(t)t[["time"]][3])[2:3]+sapply(trs300_incole23_a4_aggrs, function(t)t[["time"]][3])
+
+a6_time<-c((t300_a6_intime+intt300_1_a6_time)[3], sapply(torus300_incolle_a6, function(t)t[["time"]][3])[2:3]+sapply(trs300_incole23_a6_aggrs, function(t)t[["time"]][3]))
+
+all_time<-sapply(torus300_incolle_set_test, function(t)t[[2]][3])[1:3]+sapply(torus300_incolle13_aggrs, function(t)t[["time"]][3])
+
+##図表作成
+plot(c(unlist(a1_rate[,2]), unlist(a2_rate[,2]), unlist(a3_rate[,2]), unlist(a4_rate[,2]), unlist(a6_rate[,2]), unlist(all_rate[,2])), 1/c(a1_time, a2_time, a3_time, a4_time, a6_time, all_time), type="n",
+     ylab="1 / Computation time [1/sec]", xlab="Success Rates", cex.axis=1.6, cex.lab=1.6)
+points(unlist(a1_rate[,2]), 1/a1_time, col=1, pch=16)
+points(unlist(a2_rate[,2]), 1/a2_time, col=2, pch=16)
+points(unlist(a3_rate[,2]), 1/a3_time, col=3, pch=16)
+points(unlist(a4_rate[,2]), 1/a4_time, col=4, pch=16)
+points(unlist(a6_rate[,2]), 1/a6_time, col=5, pch=16)
+points(unlist(all_rate[,2]), 1/all_time, col=6, pch=16)
+
+rate_list<-list(a1_rate=a1_rate[,2],
+                a2_rate=a2_rate[,2],
+                a3_rate=a3_rate[,2],
+                a4_rate=a4_rate[,2],
+                a6_rate=a6_rate[,2],
+                all_rate=all_rate[,2]
+                )
+
+time_list<-list(a1_time=a1_time,
+                a2_time=a2_time,
+                a3_time=a3_time,
+                a4_time=a4_time,
+                a6_time=a6_time,
+                all_time=all_time
+                )
+
+###点数増加倍率のラベルを付ける
+library(maptools)
+pointLabel(unlist(a1_rate[,2]), 1/a1_time,  as.character(round(a1_points[1:3], digits = 2)))
+pointLabel(unlist(a2_rate[,2]), 1/a2_time,  as.character(round(a2_points[1:3], digits = 2)))
+pointLabel(unlist(a3_rate[,2]), 1/a3_time,  as.character(round(a3_points[1:3], digits = 2)))
+pointLabel(unlist(a4_rate[,2]), 1/a4_time,  as.character(round(a4_points[1:3], digits = 2)))
+pointLabel(unlist(a6_rate[,2]), 1/a6_time,  as.character(round(a6_points[1:3], digits = 2)))
+pointLabel(unlist(all_rate[,2]), 1/all_time,  as.character(round(all_points[1:3], digits = 2)))
+
+###図表における平均・標準偏差計算
+###平均
+rate_mean<-sapply(rate_list, function(rate)mean(unlist(rate)))
+time_mean<-sapply(time_list, function(time)mean(time))
+lines(rate_mean, 1/time_mean, lwd=2)
+
+###標準偏差
+rate_sd<-sapply(rate_list, function(rate)sd(unlist(rate)))
+time_sd<-sapply(time_list, function(time)sd(time))
+lines(rate_mean+rate_sd, 1/(time_mean+time_sd), lty="dashed")
+lines(rate_mean-rate_sd, 1/(time_mean-time_sd), lty="dashed")
+
+##点数増加率をまとめる
+a1_points<-sapply(torus300_incolle_a1, function(trs){
+  
+  return(sapply(trs[[1]], function(X)X[["nsample"]]) %>% '/' (., 300) %>% mean())
+  
+}) 
+
+a2_points<-sapply(torus300_incolle_a2, function(trs){
+  
+  return(sapply(trs[[1]], function(X)X[["nsample"]]) %>% '/' (., 300) %>% mean())
+  
+}) 
+
+a3_points<-sapply(torus300_incolle_a3, function(trs){
+  
+  return(sapply(trs[[1]], function(X)X[["nsample"]]) %>% '/' (., 300) %>% mean())
+  
+}) 
+
+a4_points<-sapply(torus300_incolle_a4, function(trs){
+  
+  return(sapply(trs[[1]], function(X)X[["nsample"]]) %>% '/' (., 300) %>% mean())
+  
+}) 
+
+a6_points<-sapply(torus300_incolle_a6, function(trs){
+  
+  return(sapply(trs[[1]], function(X)X[["nsample"]]) %>% '/' (., 300) %>% mean())
+  
+}) 
+
+all_points<-sapply(torus300_incolle_set, function(trs){
+  
+  return(sapply(trs, function(X)X[["nsample"]]) %>% '/' (., 300) %>% mean())
+  
+}) 
 
 ## plotly試し
 

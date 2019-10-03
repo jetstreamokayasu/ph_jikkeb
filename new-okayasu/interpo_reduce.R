@@ -56,3 +56,13 @@ mean(trs300_incolle1_a6_incre-1)
 
 trs300_incolle1_incre<-trs300_incolle1_points/300
 mean(trs300_incolle1_incre-1)
+
+
+trs300_incolle1_a2_incre<-unlist(lapply(torus300_incolle_1_a2, function(X)X[[1]])) %>% 
+                          '/'(., 300)
+mean(trs300_incolle1_a2_incre-1)
+
+
+trs300_incolle1_a4_incre<-unlist(lapply(torus300_incolle_1_a4, function(X)X[[1]])) %>% 
+  '/'(., 300)
+mean(trs300_incolle1_a4_incre-1)
