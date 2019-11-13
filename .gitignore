@@ -11,3 +11,6 @@ new_data/
 *.mp4
 
 *.RData
+
+*.Rmd
+*.html

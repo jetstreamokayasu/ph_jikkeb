@@ -618,6 +618,31 @@ save2Rdata <- function(...) {
   assign(elname, elp[[1]])
   save(list = elname, file = paste0("./data/", gsub("\\.", "_", elname), ".RData"))
 }
+
+#変数をRDataファイルに保存する関数2
+#dataディレクトリがあるか確認し、なければ作成する
+save2RData <- function(...) {
+  require(tidyverse)
+  elp <- list(...)
+  elname <- substitute(...) %>% as.character()
+  assign(elname, elp[[1]])
+  
+  dir<-match("data", list.files())
+  
+  if(is.na(dir)){
+    
+    dir.create("./data")
+    
+    
+  }else{
+    
+    if(!(file.info("./data")$isdir)){dir.create("./data")}
+  
+    }
+  
+  save(list = elname, file = paste0("./data/", elname, ".RData"))
+  
+}
   
 
 #補間を一括して行う関数
