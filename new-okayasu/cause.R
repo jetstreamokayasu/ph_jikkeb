@@ -326,7 +326,7 @@ plot_2ndpls(trs300_in1_w1_10_pls, vert = F)
 oldpar <- par(no.readonly=T)
 
 in_trs300_1_w1_10errs<-lapply(in_crrct_wrng, function(i)torus_disterror(torus300_incolle_set[[1]][[i]][["noizyX"]], maxr = 2.5, minr = 1, nps = 300))
-par(mgp=c(2.5,1,0))
+par(mgp=c(2.4,1,0))
 boxplot(in_trs300_1_w1_10errs[1:10], xlab="Data Set", ylab="Error", cex.lab=1.6, cex.axis=1.6, lwd=2)
 
 
@@ -382,7 +382,7 @@ points(a3_time, unlist(a3_rate[,2]), col=4, pch=16, cex=1.5)
 points(a4_time, unlist(a4_rate[,2]), col=5, pch=16, cex=1.5)
 #points(a6_time, unlist(a6_rate[,2]), col="orange", pch=16, cex=1.5)
 points(all_time, unlist(all_rate[,2]), col=6, pch=16, cex=1.5)
-legend("bottomright", legend = c(sapply(0:4, function(k)paste0("P=", k)), "all vertexes"), col = c(1:6), pch = 16)
+legend("bottomright", legend = c(sapply(0:4, function(k)paste0("P=", k)), "all vertexes"), col = c(1:6), pch = 16, cex=1.8)
 
 rate_list<-list(a0_rate=a0_rate[,2],
                 a1_rate=a1_rate[,2],
@@ -404,13 +404,17 @@ time_list<-list(a0_time=a0_time,
 
 ###点数増加倍率のラベルを付ける
 library(maptools)
-pointLabel(a0_time, unlist(a0_rate[,2]), as.character(rep(300, times=5)))
-pointLabel(a1_time, unlist(a1_rate[,2]), as.character(round(a1_points, digits = 2)))
-pointLabel(a2_time, unlist(a2_rate[,2]), as.character(round(a2_points, digits = 2)))
-pointLabel(a3_time, unlist(a3_rate[,2]), as.character(round(a3_points, digits = 2)))
-pointLabel(a4_time, unlist(a4_rate[,2]), as.character(round(a4_points, digits = 2)))
+pointLabel(a0_time, unlist(a0_rate[,2]), as.character(rep(300, times=5)), cex=1.8)
+pointLabel(a1_time, unlist(a1_rate[,2]), as.character(round(a1_points, digits = 2)), cex=1.8)
+pointLabel(a2_time, unlist(a2_rate[,2]), as.character(round(a2_points, digits = 2)), cex=1.8)
+pointLabel(a3_time, unlist(a3_rate[,2]), as.character(round(a3_points, digits = 2)), cex=1.8)
+pointLabel(a4_time, unlist(a4_rate[,2]), as.character(round(a4_points, digits = 2)), cex=1.8)
 #pointLabel(unlist(a6_rate[,2]), 1/a6_time,  as.character(round(a6_points[1:3], digits = 2)))
-pointLabel(all_time, unlist(all_rate[,2]), as.character(round(all_points, digits = 2)))
+pointLabel(all_time, unlist(all_rate[,2]), as.character(round(all_points, digits = 2)), cex=1.8)
+
+#全点に対して点数ラベルを付ける
+pointLabel(c(a0_time, a1_time, a2_time, a3_time, a4_time, all_time), c(unlist(a0_rate[,2]), unlist(a1_rate[,2]), unlist(a2_rate[,2]), unlist(a3_rate[,2]), unlist(a4_rate[,2]), unlist(all_rate[,2])), c(as.character(rep(300, times=5)), 
+           as.character(round(a1_points, digits = 2)), as.character(round(a2_points, digits = 2)), as.character(round(a3_points, digits = 2)), as.character(round(a4_points, digits = 2)), as.character(round(all_points, digits = 2))), cex=1.8)
 
 ###図表における平均・標準偏差計算
 ###平均

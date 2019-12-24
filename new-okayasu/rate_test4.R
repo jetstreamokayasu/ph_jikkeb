@@ -699,3 +699,18 @@ lines(seq(300, 350, by=10), in_dim2_mean, col=2)
 in_dim2_sd<-sapply(insub_rates, function(rate)sd(unlist(rate[,2])))
 lines(seq(300, 350, by=10), in_dim2_mean-in_dim2_sd, lty="dashed", col=2)
 lines(seq(300, 350, by=10), in_dim2_mean+in_dim2_sd, lty="dashed", col=2)
+
+
+#スライド用トーラス画像
+
+figurePlot3d(torus300_colle_set[[1]][[1]][["noizyX"]])
+rgl.snapshot("./data/torus_img/torus0.png") 
+
+  for(j in 1:4){
+    
+    figurePlot3d(torus320_colle_set[[1]][[j]][["noizyX"]])
+    rgl.snapshot(paste0("./data/torus_img/torus320_", j, ".png"))
+    
+  }
+
+
