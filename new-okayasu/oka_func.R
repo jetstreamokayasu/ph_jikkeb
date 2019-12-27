@@ -660,6 +660,7 @@ intering<-function(collect){
 
 #補間の誤差計算
 #トーラスに対して
+#間違った関数
 calc_error<-function(figure, maxr, minr, nps){
   
   require(tidyverse)
@@ -692,7 +693,8 @@ calc_error<-function(figure, maxr, minr, nps){
   
 }
 
-
+#補間の誤差計算
+#トーラスに対して
 torus_disterror<-function(figure, maxr, minr, nps){
   
   require(tidyverse)

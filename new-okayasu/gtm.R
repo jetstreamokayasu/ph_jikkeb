@@ -30,3 +30,11 @@ plot(trs18_pca1[["x"]][, 1:2], col=4, pch=16)
 
 library(maptools)
 pointLabel(trs18_pca1[["x"]][, 1:2], as.character(trs18_vics1))
+
+#GTM補間後、ベッチ数推定してみる
+trs300_incolle_set1<-gtm_interpolate(torus300_colle_set[[1]][1:5], 30)
+
+{
+trs300_incolle_set1_test_aggr<-proposedMethodOnly(trs300_incolle_set1, 2, 3, 10)
+save2Rdata(trs300_incolle_set1_test_aggr)
+}
