@@ -653,6 +653,25 @@ sucsrate_sd<-sapply(sucs_rates, function(rate)sd(unlist(rate[,2])))
 lines(seq(300, 350, by=10), sucsrate_mean-sucsrate_sd, lty="dashed")
 lines(seq(300, 350, by=10), sucsrate_mean+sucsrate_sd, lty="dashed")
 
+##補間前1次ベッチ数
+plot(sucs_rates_tidy, pch=16, cex.axis=1.6, xlab="Data Density", ylab="Success Rates", cex.lab=1.6, xlim=c(300, 350), ylim=c(0.0, 1.0), xaxt="n", type="n")
+axis(side=1, at=seq(300, 350, by=10), labels=c(paste0(seq(30, 35), "/(pi^2)")), cex.axis=1.1)
+
+points(rep(300, 5), sucs300_rate[,1], pch=16)
+points(rep(310, 5), sucs310_rate[,1], pch=16)
+points(rep(320, 5), sucs320_rate[,1], pch=16)
+points(rep(330, 5), sucs330_rate[,1], pch=16)
+points(rep(340, 5), sucs340_rate[,1], pch=16)
+points(rep(350, 5), sucs350_rate[,1], pch=16)
+
+sucsrate_mean<-sapply(sucs_rates, function(rate)mean(unlist(rate[,1])))
+lines(seq(300, 350, by=10), sucsrate_mean)
+
+sucsrate_sd<-sapply(sucs_rates, function(rate)sd(unlist(rate[,1])))
+lines(seq(300, 350, by=10), sucsrate_mean-sucsrate_sd, lty="dashed")
+lines(seq(300, 350, by=10), sucsrate_mean+sucsrate_sd, lty="dashed")
+
+
 #補間後
 torus350_incolle_rate<-aggr_success_rates(torus350_incolle_aggrs, c(2,1))
 torus340_incolle13_rate<-aggr_success_rates(torus340_incolle13_aggrs, c(2,1))
@@ -686,19 +705,35 @@ insub_rates<-list("300"=in300_rates,
                   "350"=in350_rates)
 
 #2次ベッチ数新手法補間後
-points(rep(300, 5), in300_rates[,2], col=2, pch=16)
-points(rep(310, 5), in310_rates[,2], col=2, pch=16)
-points(rep(320, 5), in320_rates[,2], col=2, pch=16)
-points(rep(330, 5), in330_rates[,2], col=2, pch=16)
-points(rep(340, 5), in340_rates[,2], col=2, pch=16)
-points(rep(350, 5), in350_rates[,2], col=2, pch=16)
+points(rep(300, 5), in300_rates[,2], col=4, pch=16)
+points(rep(310, 5), in310_rates[,2], col=4, pch=16)
+points(rep(320, 5), in320_rates[,2], col=4, pch=16)
+points(rep(330, 5), in330_rates[,2], col=4, pch=16)
+points(rep(340, 5), in340_rates[,2], col=4, pch=16)
+points(rep(350, 5), in350_rates[,2], col=4, pch=16)
 
 in_dim2_mean<-sapply(insub_rates, function(rate)mean(unlist(rate[,2])))
-lines(seq(300, 350, by=10), in_dim2_mean, col=2)
+lines(seq(300, 350, by=10), in_dim2_mean, col=4)
 
 in_dim2_sd<-sapply(insub_rates, function(rate)sd(unlist(rate[,2])))
-lines(seq(300, 350, by=10), in_dim2_mean-in_dim2_sd, lty="dashed", col=2)
-lines(seq(300, 350, by=10), in_dim2_mean+in_dim2_sd, lty="dashed", col=2)
+lines(seq(300, 350, by=10), in_dim2_mean-in_dim2_sd, lty="dashed", col=4)
+lines(seq(300, 350, by=10), in_dim2_mean+in_dim2_sd, lty="dashed", col=4)
+
+
+##補間後1次ベッチ数
+points(rep(300, 5), in300_rates[,1], col=4, pch=16)
+points(rep(310, 5), in310_rates[,1], col=4, pch=16)
+points(rep(320, 5), in320_rates[,1], col=4, pch=16)
+points(rep(330, 5), in330_rates[,1], col=4, pch=16)
+points(rep(340, 5), in340_rates[,1], col=4, pch=16)
+points(rep(350, 5), in350_rates[,1], col=4, pch=16)
+
+in_dim2_mean<-sapply(insub_rates, function(rate)mean(unlist(rate[,1])))
+lines(seq(300, 350, by=10), in_dim2_mean, col=4)
+
+in_dim2_sd<-sapply(insub_rates, function(rate)sd(unlist(rate[,1])))
+lines(seq(300, 350, by=10), in_dim2_mean-in_dim2_sd, lty="dashed", col=4)
+lines(seq(300, 350, by=10), in_dim2_mean+in_dim2_sd, lty="dashed", col=4)
 
 
 #スライド用トーラス画像
