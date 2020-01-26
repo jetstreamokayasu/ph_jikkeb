@@ -105,11 +105,39 @@ trs340_incolle_set1<-gtm_inter_reduce(collect = torus340_colle_set[[1]], nvic = 
 }
 
 #350点トーラス
+
 trs350_incolle_set1<-gtm_inter_reduce(collect = torus350_colle_set[[1]], nvic = 30, ratio = 0.7)
 {
   trs350_incolle_set1_test_aggr<-proposedMethodOnly(trs350_incolle_set1, 2, 3, 10)
   save2Rdata(trs350_incolle_set1_test_aggr)
 }
+
+##並列化を試す
+library(parallel)
+
+cl <- makeCluster(4, outfile="")
+
+clusterEvalQ(cl,{
+  library(phacm)
+  library(interpo3d)
+  library(pracma)
+  library(deldir)
+  library(gtm)
+  library(tidyverse)
+  library(myfs)
+})
+
+clusterEvalQ(cl, {
+  source('~/R/interpolation_test/interpo_func.R', encoding = 'UTF-8')
+  source('~/R/interpolation_test/interpo_func_2.R', encoding = 'UTF-8')
+  source('~/R/interpolation_test/interpo_func.R', encoding = 'UTF-8')
+  source('~/R/p_reduce/reduce_func.R', encoding = 'UTF-8')
+  source('~/R/interpolation_test/reduce_func2.R', encoding = 'UTF-8')
+  }
+  )
+
+int_time<-system.time(trs350_incolle_set1<-parLapply(cl, torus350_colle_set[1], function(x)gtm_inter_reduce(collect = x, nvic = 30, ratio = 0.95) ))
+stopCluster(cl)
 
 
 ##不具合チェック
