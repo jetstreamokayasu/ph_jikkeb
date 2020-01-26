@@ -36,6 +36,9 @@ trs300_incolle_set1<-gtm_interpolate(torus300_colle_set[[1]][1:5], 30)
 figurePlot3d(trs300_incolle_set1[[1]][["noizyX"]][1:300,])
 points3d(trs300_incolle_set1[[1]][["noizyX"]][301:884,], col=2)
 
+rgl.postscript("./data/trs300.eps", fmt="eps" )
+rgl.postscript("./data/in_trs300.eps", fmt="eps" )
+
 
 {
 trs300_incolle_set1_test_aggr<-proposedMethodOnly(trs300_incolle_set1, 2, 3, 10)
@@ -44,9 +47,118 @@ save2Rdata(trs300_incolle_set1_test_aggr)
 
 
 #GTM, 全ボロノイ領域の頂点補間, 点数削減
+
+#300点トーラス
 trs300_incolle_set1b<-gtm_inter_reduce(collect = torus300_colle_set[[1]], nvic = 30, ratio = 0.7)
 
 {
   trs300_incolle_set1b_test_aggr<-proposedMethodOnly(trs300_incolle_set1b, 2, 3, 10)
-  save2Rdata(trs300_incolle_set1_test_aggr)
+  save2Rdata(trs300_incolle_set1b_test_aggr)
 }
+
+#310点トーラス
+trs310_incolle_set1<-gtm_inter_reduce(collect = torus310_colle_set[[1]], nvic = 30, ratio = 0.7)
+
+{
+  trs310_incolle_set1_test_aggr<-proposedMethodOnly(trs310_incolle_set1, 2, 3, 10)
+  save2Rdata(trs310_incolle_set1_test_aggr)
+}
+
+trs310_incolle_set1<-gtm_inter_reduce(collect = torus310_colle_set[[1]], nvic = 30, ratio = 0.7)
+
+#320点トーラス
+trs320_incolle_set1<-gtm_inter_reduce(collect = torus320_colle_set[[1]], nvic = 30, ratio = 0.7)
+{
+  trs320_incolle_set1_test_aggr<-proposedMethodOnly(trs320_incolle_set1, 2, 3, 10)
+  save2Rdata(trs320_incolle_set1_test_aggr)
+}
+
+#330点トーラス
+trs330_incolle_set1<-gtm_inter_reduce(collect = torus330_colle_set[[1]], nvic = 30, ratio = 0.7)
+{
+  trs330_incolle_set1_test_aggr<-proposedMethodOnly(trs330_incolle_set1, 2, 3, 10)
+  save2Rdata(trs330_incolle_set1_test_aggr)
+}
+
+{
+#340点トーラス
+trs340_incolle_set1<-gtm_inter_reduce(collect = torus340_colle_set[[1]], nvic = 30, ratio = 0.95)
+{
+  trs340_incolle_set1_test_aggr<-proposedMethodOnly(trs340_incolle_set1, 2, 3, 10)
+  save2Rdata(trs340_incolle_set1_test_aggr)
+}
+}
+
+#350点トーラス
+trs350_incolle_set1<-gtm_inter_reduce(collect = torus350_colle_set[[1]], nvic = 30, ratio = 0.7)
+{
+  trs350_incolle_set1_test_aggr<-proposedMethodOnly(trs350_incolle_set1, 2, 3, 10)
+  save2Rdata(trs350_incolle_set1_test_aggr)
+}
+
+
+##不具合チェック
+trs340_set89_inted<-voronoi_gtm_interpo(torus340_colle_set[[1]][[89]][["noizyX"]], nvics = 30)
+
+trs340_1_89_vic10s<-interpo3d:::get_vicinity(dist(torus340_colle_set[[1]][[89]][["noizyX"]]), 10, 30)
+
+X<-torus340_colle_set[[1]][[89]][["noizyX"]][trs340_1_89_vic10s,]
+# (分散が0の変数を削除した後に) 1. オートスケーリング
+Var0Variable <- which(apply(X,2,var) == 0)
+if (length(Var0Variable) == 0) {
+  #print("分散が0の変数はありません")
+} else {
+  sprintf("分散が0の変数が %d つありました", length(Var0Variable))
+  print( "変数:" )
+  print( Var0Variable )
+  print( "これらを削除します" )
+  X <- X[,-Var0Variable]
+}
+X <- scale(X, center = TRUE, scale = TRUE)
+# 2. マップサイズ
+MapsizeColumn = 15 #横 10
+MapsizeRow = 15 #縦 10 、
+# 3. 動径基底関数 (Radial Basis Function, RBF) の数
+RBFsizeColumn = 3 #横 3
+RBFsizeRow = 3 #縦 3
+# 4. ガウス関数の分散
+RBFVariance = 1
+# 5. EMアル
+# 6. データ空間における分散の逆数βの初期値
+# 7. 重みWの初期値
+XGrid = gtm.rctg( MapsizeColumn, MapsizeRow)#写像先のグリッド
+RBFGrid = gtm.rctg( RBFsizeColumn, RBFsizeRow)#基底関数のグリッド
+RBFSetup = gtm.gbf( RBFGrid, RBFVariance^(1/2), XGrid)
+InitnalWBeta = gtm.pci.beta(X, XGrid, RBFSetup)
+#Beta = 0.01
+Beta = InitnalWBeta$beta
+# 9. GTMマップ作成
+GTMResults = gtm.trn( X, RBFSetup, InitnalWBeta$W, Lambda, NumOfTraining, Beta, quiet = T)
+# 10. 二次元のマップ上でサンプルの位置関係を確認
+GTMDist = gtm.dist(X, RBFSetup %*% GTMResults$W)
+GTMR = gtm.resp3(GTMDist, GTMResults$beta, ncol(X))$R
+GTMMean = t(GTMR) %*% XGrid
+
+par(pty="s")
+plot(GTMMean[,1], GTMMean[,2])
+points(GTMMean[1,1], GTMMean[1,2], pch=16, col=2)
+#次元削減後のボロノイ分割
+res<-deldir(GTMMean[,1], GTMMean[,2])
+trs340_1_89_tiles158<-tile.list(res)
+for(i in 1:res$n.data){	polygon(trs340_1_89_tiles158[[i]], lwd=2) }
+
+#境界領域に接しないボロノイ領域の頂点を選ぶ
+vertx<-cbind(res[["dirsgs"]][["x1"]][!res[["dirsgs"]][["bp1"]]], res[["dirsgs"]][["y1"]][!res[["dirsgs"]][["bp1"]]])
+points(vertx, pch=16, col=4)
+RBF_inter = gtm.gbf(RBFGrid, RBFVariance^(1/2), vertx)
+#inter_dist<-gtm.dist(X, RBF_inter %*% GTMResults$W)
+# inter_R = gtm.resp3(inter_dist, GTMResults$beta, ncol(X))$R
+# inter_mean = t(inter_R) %*% (RBF_inter %*% GTMResults$W)
+inter_mean<-RBF_inter %*% GTMResults$W
+inter_inv<-sapply(1:nrow(inter_mean), function(k){inter_mean[k, ] * attr(X, "scaled:scale") + attr(X, "scaled:center")})
+inter_inv<-t(inter_inv)
+
+#補間後点数削減チェック
+trs340_1_89_upsam<-rbind(torus340_colle_set[[1]][[89]][["noizyX"]], trs340_set89_inted)
+
+trs340_1_89_red<-reduce_intered(intered_X = trs340_1_89_upsam, ratio = 0.95, n_ori = nrow(torus340_colle_set[[1]][[89]][["noizyX"]]))
