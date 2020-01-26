@@ -4,6 +4,7 @@
 .Ruserdata
 
 data/
+new_data/
 
 *.gif
 *.exe
