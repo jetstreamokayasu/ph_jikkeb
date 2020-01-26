@@ -56,6 +56,21 @@ trs300_incolle_set1b<-gtm_inter_reduce(collect = torus300_colle_set[[1]], nvic =
   save2Rdata(trs300_incolle_set1b_test_aggr)
 }
 
+##300点トーラスで補間前、補間後、点数削減後を図表化
+figurePlot3d(torus300_colle_set[[1]][[1]][["noizyX"]])
+rgl.postscript("./data/trs300B.eps", fmt="eps")
+
+trs330_1_1_inted<-voronoi_gtm_interpo(torus300_colle_set[[1]][[1]][["noizyX"]], nvics = 30)
+trs300_1_1_upsam<-rbind(torus300_colle_set[[1]][[1]][["noizyX"]], trs300_1_1_inted)
+points3d(trs300_1_1_inted, col=2)
+rgl.postscript("./data/trs300B_inted.eps", fmt="eps")
+
+trs300_1_1_red<-reduce_intered(intered_X = trs300_1_1_upsam, ratio = 0.95, n_ori = nrow(torus300_colle_set[[1]][[1]][["noizyX"]]))
+figurePlot3d(trs300_1_1_red[["y"]][(trs300_1_1_red[["remain"]] <= 300), ])
+rgl.postscript("./data/trs300B_ori.eps", fmt="eps")
+points3d(trs300_1_1_red[["y"]][(trs300_1_1_red[["remain"]] > 300), ], col=2)
+rgl.postscript("./data/trs300B_red.eps", fmt="eps")
+
 #310点トーラス
 trs310_incolle_set1<-gtm_inter_reduce(collect = torus310_colle_set[[1]], nvic = 30, ratio = 0.7)
 
@@ -162,3 +177,6 @@ inter_inv<-t(inter_inv)
 trs340_1_89_upsam<-rbind(torus340_colle_set[[1]][[89]][["noizyX"]], trs340_set89_inted)
 
 trs340_1_89_red<-reduce_intered(intered_X = trs340_1_89_upsam, ratio = 0.95, n_ori = nrow(torus340_colle_set[[1]][[89]][["noizyX"]]))
+
+thresh<-quantile_threshold(x = 0.95, X = trs340_1_89_upsam)
+trs340_1_89_cell<-cell_set2(x = trs340_1_89_upsam, thresh = thresh)
