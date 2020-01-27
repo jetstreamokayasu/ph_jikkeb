@@ -136,7 +136,18 @@ clusterEvalQ(cl, {
   }
   )
 
-int_time<-system.time(trs350_incolle_set1<-parLapply(cl, torus350_colle_set[1], function(x)gtm_inter_reduce(collect = x, nvic = 30, ratio = 0.95) ))
+int_time<-system.time(trs350_incolle_set1<-parLapply(cl, torus350_colle_set[[1]], function(X){
+  
+  inter_oricord<-voronoi_gtm_interpo(X[[2]], nvics = 30)
+  inter_oricord<-inter_oricord[!is.na(inter_oricord[,1]), ]
+  red_oricord<-reduce_intered(intered_X = rbind(X[[2]], inter_oricord), ratio = 0.95, n_ori = nrow(X[[2]]))
+  X[[2]]<-red_oricord[["y"]]
+  X[[1]]<-nrow(X[[2]])
+  cat("dataset has", X[[1]], "points\n")
+  return(X)
+  
+}))
+
 stopCluster(cl)
 
 
