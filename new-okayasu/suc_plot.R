@@ -120,17 +120,19 @@ gtm_300rate_dim2<-cycle_number(trs300_incolle_set1b_test_aggr, 2)[2]/100
 gtm_310rate_dim2<-cycle_number(trs310_incolle_set1_test_aggr, 2)[2]/100
 gtm_320rate_dim2<-cycle_number(trs320_incolle_set1_test_aggr, 2)[2]/100
 gtm_330rate_dim2<-cycle_number(trs330_incolle_set1_test_aggr, 2)[2]/100
+gtm_340rate_dim2<-cycle_number(trs340_incolle_set1_test_aggr, 2)[2]/100
 
 ##1次ベッチ数成功率
 gtm_300rate_dim1<-cycle_number(trs300_incolle_set1b_test_aggr, 1)[3]/100
 gtm_310rate_dim1<-cycle_number(trs310_incolle_set1_test_aggr, 1)[3]/100
 gtm_320rate_dim1<-cycle_number(trs320_incolle_set1_test_aggr, 1)[3]/100
 gtm_330rate_dim1<-cycle_number(trs330_incolle_set1_test_aggr, 1)[3]/100
+gtm_340rate_dim1<-cycle_number(trs340_incolle_set1_test_aggr, 1)[3]/100
 
 #2次ベッチ数成功率をプロット
-points(seq(300, 330, by=10), c(gtm_300rate_dim2, gtm_310rate_dim2, gtm_320rate_dim2, gtm_330rate_dim2), col=2, pch=16, cex=1.5)
-lines(seq(300, 330, by=10), c(gtm_300rate_dim2, gtm_310rate_dim2, gtm_320rate_dim2, gtm_330rate_dim2), col=2, lwd=2)
+points(seq(300, 340, by=10), c(gtm_300rate_dim2, gtm_310rate_dim2, gtm_320rate_dim2, gtm_330rate_dim2, gtm_340rate_dim2), col=2, pch=16, cex=1.5)
+lines(seq(300, 340, by=10), c(gtm_300rate_dim2, gtm_310rate_dim2, gtm_320rate_dim2, gtm_330rate_dim2, gtm_340rate_dim2), col=2, lwd=2)
 
 #1次ベッチ数成功率をプロット
-points(seq(300, 330, by=10), c(gtm_300rate_dim1, gtm_310rate_dim1, gtm_320rate_dim1, gtm_330rate_dim1), col=2, pch=16, cex=1.5)
-lines(seq(300, 330, by=10), c(gtm_300rate_dim1, gtm_310rate_dim1, gtm_320rate_dim1, gtm_330rate_dim1), col=2, lwd=2)
+points(seq(300, 340, by=10), c(gtm_300rate_dim1, gtm_310rate_dim1, gtm_320rate_dim1, gtm_330rate_dim1, gtm_340rate_dim1), col=2, pch=16, cex=1.5)
+lines(seq(300, 340, by=10), c(gtm_300rate_dim1, gtm_310rate_dim1, gtm_320rate_dim1, gtm_330rate_dim1, gtm_340rate_dim1), col=2, lwd=2)

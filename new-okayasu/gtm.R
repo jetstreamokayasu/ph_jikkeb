@@ -136,14 +136,16 @@ clusterEvalQ(cl, {
   }
   )
 
-int_time<-system.time(trs350_incolle_set1<-parLapply(cl, torus350_colle_set[[1]], function(X){
+int_time<-system.time(trs350_incolle_set1b<-parLapply(cl, torus350_colle_set[[1]], function(X){
   
   inter_oricord<-voronoi_gtm_interpo(X[[2]], nvics = 30)
   inter_oricord<-inter_oricord[!is.na(inter_oricord[,1]), ]
   red_oricord<-reduce_intered(intered_X = rbind(X[[2]], inter_oricord), ratio = 0.95, n_ori = nrow(X[[2]]))
   X[[2]]<-red_oricord[["y"]]
   X[[1]]<-nrow(X[[2]])
-  cat("dataset has", X[[1]], "points\n")
+  sink(paste0("./parallel/", X[[1]], "data", format(Sys.time(), "%m%d_%H%M"), ".txt"))
+  print(paste0("dataset has", X[[1]], "points"))
+  sink()
   return(X)
   
 }))
@@ -155,6 +157,12 @@ stopCluster(cl)
 trs340_set89_inted<-voronoi_gtm_interpo(torus340_colle_set[[1]][[89]][["noizyX"]], nvics = 30)
 
 trs340_1_89_vic10s<-interpo3d:::get_vicinity(dist(torus340_colle_set[[1]][[89]][["noizyX"]]), 10, 30)
+
+#deldirエラーチェック
+##Both vertex orderings are clockwise. See help for deldir.
+trs350_1_89_inted<-voronoi_gtm_interpo(torus350_colle_set[[1]][[89]][["noizyX"]], nvics = 30)
+
+trs350_1_89_vic39s<-interpo3d:::get_vicinity(dist(torus350_colle_set[[1]][[89]][["noizyX"]]), 39, 30)
 
 X<-torus340_colle_set[[1]][[89]][["noizyX"]][trs340_1_89_vic10s,]
 # (分散が0の変数を削除した後に) 1. オートスケーリング
@@ -197,7 +205,7 @@ par(pty="s")
 plot(GTMMean[,1], GTMMean[,2])
 points(GTMMean[1,1], GTMMean[1,2], pch=16, col=2)
 #次元削減後のボロノイ分割
-res<-deldir(GTMMean[,1], GTMMean[,2])
+res<-try(deldir(GTMMean[,1], GTMMean[,2], eps = 1e-5))
 trs340_1_89_tiles158<-tile.list(res)
 for(i in 1:res$n.data){	polygon(trs340_1_89_tiles158[[i]], lwd=2) }
 
@@ -219,3 +227,6 @@ trs340_1_89_red<-reduce_intered(intered_X = trs340_1_89_upsam, ratio = 0.95, n_o
 
 thresh<-quantile_threshold(x = 0.95, X = trs340_1_89_upsam)
 trs340_1_89_cell<-cell_set2(x = trs340_1_89_upsam, thresh = thresh)
+
+
+
