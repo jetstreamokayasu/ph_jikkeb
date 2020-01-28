@@ -113,6 +113,7 @@ trs350_incolle_set1<-gtm_inter_reduce(collect = torus350_colle_set[[1]], nvic = 
 }
 
 ##並列化を試す
+##350点トーラス
 library(parallel)
 
 cl <- makeCluster(4, outfile="")
@@ -144,7 +145,7 @@ int_time<-system.time(trs350_incolle_set1b<-parLapply(cl, torus350_colle_set[[1]
   X[[2]]<-red_oricord[["y"]]
   X[[1]]<-nrow(X[[2]])
   sink(paste0("./parallel/", X[[1]], "data", format(Sys.time(), "%m%d_%H%M"), ".txt"))
-  print(paste0("dataset has", X[[1]], "points"))
+  print(paste("dataset has", X[[1]], "points"))
   sink()
   return(X)
   
@@ -152,6 +153,11 @@ int_time<-system.time(trs350_incolle_set1b<-parLapply(cl, torus350_colle_set[[1]
 
 stopCluster(cl)
 
+#parallelで補間後ベッチ数推定
+{
+  trs350_incolle_set1b_test_aggr<-proposedMethodOnly(trs350_incolle_set1b, 2, 3, 10)
+  save2Rdata(trs350_incolle_setb1_test_aggr)
+}
 
 ##不具合チェック
 trs340_set89_inted<-voronoi_gtm_interpo(torus340_colle_set[[1]][[89]][["noizyX"]], nvics = 30)

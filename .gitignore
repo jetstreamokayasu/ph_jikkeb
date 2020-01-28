@@ -5,6 +5,7 @@
 
 data/
 new_data/
+parallel/
 
 *.gif
 *.exe
