@@ -154,10 +154,55 @@ int_time<-system.time(trs350_incolle_set1b<-parLapply(cl, torus350_colle_set[[1]
 stopCluster(cl)
 
 #parallelで補間後ベッチ数推定
+##350点トーラス
 {
   trs350_incolle_set1b_test_aggr<-proposedMethodOnly(trs350_incolle_set1b, 2, 3, 10)
-  save2Rdata(trs350_incolle_setb1_test_aggr)
+  save2Rdata(trs350_incolle_set1b_test_aggr)
 }
+
+
+##並列化を試す
+##350点トーラス
+library(parallel)
+
+cl <- makeCluster(4, outfile="")
+
+clusterEvalQ(cl,{
+  library(phacm)
+  library(interpo3d)
+  library(pracma)
+  library(deldir)
+  library(gtm)
+  library(tidyverse)
+  library(myfs)
+})
+
+clusterEvalQ(cl, {
+  source('~/R/interpolation_test/interpo_func.R', encoding = 'UTF-8')
+  source('~/R/interpolation_test/interpo_func_2.R', encoding = 'UTF-8')
+  source('~/R/interpolation_test/interpo_func.R', encoding = 'UTF-8')
+  source('~/R/p_reduce/reduce_func.R', encoding = 'UTF-8')
+  source('~/R/interpolation_test/reduce_func2.R', encoding = 'UTF-8')
+}
+)
+
+int_time300p<-system.time(trs300_incolle_set1c<-parLapply(cl, torus300_colle_set[[1]], function(X){
+  
+  inter_oricord<-voronoi_gtm_interpo(X[[2]], nvics = 30)
+  inter_oricord<-inter_oricord[!is.na(inter_oricord[,1]), ]
+  red_oricord<-reduce_intered(intered_X = rbind(X[[2]], inter_oricord), ratio = 0.95, n_ori = nrow(X[[2]]))
+  X[[2]]<-red_oricord[["y"]]
+  X[[1]]<-nrow(X[[2]])
+  sink(paste0("./parallel/", X[[1]], "data", format(Sys.time(), "%m%d_%H%M"), ".txt"))
+  print(paste("dataset has", X[[1]], "points"))
+  sink()
+  return(X)
+  
+}))
+
+stopCluster(cl)
+
+
 
 ##不具合チェック
 trs340_set89_inted<-voronoi_gtm_interpo(torus340_colle_set[[1]][[89]][["noizyX"]], nvics = 30)
