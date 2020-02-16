@@ -66,3 +66,12 @@ mean(trs300_incolle1_a2_incre-1)
 trs300_incolle1_a4_incre<-unlist(lapply(torus300_incolle_1_a4, function(X)X[[1]])) %>% 
   '/'(., 300)
 mean(trs300_incolle1_a4_incre-1)
+
+
+
+#補間された点のみを減らす
+#元のデータはすべて残す
+trs350_1_1_inted<-voronoi_gtm_interpo(torus350_colle_set[[1]][[1]][["noizyX"]], nvics = 30)
+trs350_1_1_inted<-trs350_1_1_inted[!is.na(trs350_1_1_inted[,1]), ]
+trs350_1_1_red<-reduce_intered2(intered_X = trs350_1_1_inted, ratio = 0.99)
+trs350_1_1_interd<-rbind(torus350_colle_set[[1]][[1]][["noizyX"]], trs350_1_1_red)

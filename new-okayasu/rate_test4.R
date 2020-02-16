@@ -657,7 +657,7 @@ lines(seq(300, 350, by=10), sucsrate_mean+sucsrate_sd, lty="dashed")
 plot(sucs_rates_tidy, pch=16, cex.axis=1.6, xlab="Data Density", ylab="Success Rates", cex.lab=1.6, xlim=c(300, 350), ylim=c(0.0, 1.0), xaxt="n", type="n")
 axis(side=1, at=seq(300, 350, by=10), labels=c(paste0(seq(30, 35), "/(pi^2)")), cex.axis=1.1)
 
-points(rep(300, 5), sucs300_rate[,1], pch=16)
+points(rep(300, 5), sucs300_rate[,1], pch=16, col='#7F7F7F')
 points(rep(310, 5), sucs310_rate[,1], pch=16)
 points(rep(320, 5), sucs320_rate[,1], pch=16)
 points(rep(330, 5), sucs330_rate[,1], pch=16)
@@ -705,12 +705,12 @@ insub_rates<-list("300"=in300_rates,
                   "350"=in350_rates)
 
 #2次ベッチ数新手法補間後
-points(rep(300, 5), in300_rates[,2], col=4, pch=16)
-points(rep(310, 5), in310_rates[,2], col=4, pch=16)
-points(rep(320, 5), in320_rates[,2], col=4, pch=16)
-points(rep(330, 5), in330_rates[,2], col=4, pch=16)
-points(rep(340, 5), in340_rates[,2], col=4, pch=16)
-points(rep(350, 5), in350_rates[,2], col=4, pch=16)
+points(rep(300, 5), in300_rates[,2], col='#4C4CFF', pch=16)
+points(rep(310, 5), in310_rates[,2], col='#4C4CFF', pch=16)
+points(rep(320, 5), in320_rates[,2], col='#4C4CFF' pch=16)
+points(rep(330, 5), in330_rates[,2], col='#4C4CFF', pch=16)
+points(rep(340, 5), in340_rates[,2], col='#4C4CFF', pch=16)
+points(rep(350, 5), in350_rates[,2], col='#4C4CFF', pch=16)
 
 in_dim2_mean<-sapply(insub_rates, function(rate)mean(unlist(rate[,2])))
 lines(seq(300, 350, by=10), in_dim2_mean, col=4)
@@ -749,3 +749,18 @@ rgl.snapshot("./data/torus_img/torus0.png")
   }
 
 
+#GTM補間および点数削減後の精度
+##2次ベッチ数
+gtm_300rate_dim2<-cycle_number(trs300_incolle_set1b_test_aggr, 2)[2]/100
+gtm_310rate_dim2<-cycle_number(trs310_incolle_set1_test_aggr, 2)[2]/100
+gtm_320rate_dim2<-cycle_number(trs320_incolle_set1_test_aggr, 2)[2]/100
+gtm_330rate_dim2<-cycle_number(trs330_incolle_set1_test_aggr, 2)[2]/100
+
+##1次ベッチ数
+gtm_300rate_dim1<-cycle_number(trs300_incolle_set1b_test_aggr, 1)[3]/100
+gtm_310rate_dim1<-cycle_number(trs310_incolle_set1_test_aggr, 1)[3]/100
+gtm_320rate_dim1<-cycle_number(trs320_incolle_set1_test_aggr, 1)[3]/100
+gtm_330rate_dim1<-cycle_number(trs330_incolle_set1_test_aggr, 1)[3]/100
+
+points(seq(300, 330, by=10), c(gtm_300rate_dim2, gtm_310rate_dim2, gtm_320rate_dim2, gtm_330rate_dim2), col=2, pch=16, cex=1.5)
+lines(seq(300, 330, by=10), c(gtm_300rate_dim2, gtm_310rate_dim2, gtm_320rate_dim2, gtm_330rate_dim2), col=2, lwd=2)
