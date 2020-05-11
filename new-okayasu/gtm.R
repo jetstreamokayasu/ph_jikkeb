@@ -116,10 +116,13 @@ trs340_incolle_set1<-gtm_inter_reduce(collect = torus340_colle_set[[1]], nvic = 
 
 #350点トーラス
 
-trs350_incolle_set1<-gtm_inter_reduce(collect = torus350_colle_set[[1]], nvic = 30, ratio = 0.7)
+{
+trs350_incolle_set1<-gtm_inter_reduce(collect = torus350_colle_set[[1]], nvic = 30, ratio = 0.95)
+
 {
   trs350_incolle_set1_test_aggr<-proposedMethodOnly(trs350_incolle_set1, 2, 3, 10)
   save2Rdata(trs350_incolle_set1_test_aggr)
+}
 }
 
 #並列化準備
